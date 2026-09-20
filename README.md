@@ -93,6 +93,27 @@ pokedex-pm2/
 
 ---
 
+## 🎨 Protótipos de Alta Fidelidade
+
+Os protótipos desenvolvidos no Figma estão disponíveis nos arquivos abaixo:
+
+### 🔐 Fluxo não autenticado — Logar
+
+- 📄 [01 — Login](docs/01-login.pdf)
+- 📄 [02 — Registro](docs/02-registro.pdf)
+- 📄 [03 — Site Inicial](docs/03-site-inicial-logar.pdf)
+- 📄 [04 — Pokédex](docs/04-pokedex-logar.pdf)
+- 📄 [05 — Detalhes do Pokémon](docs/05-detalhe-logar.pdf)
+
+### 👤 Fluxo autenticado — Logado
+
+- 📄 [06 — Pokédex](docs/06-pokedex-logado.pdf)
+- 📄 [07 — Detalhes do Pokémon](docs/07-detalhes-logado.pdf)
+- 📄 [08 — Comparador](docs/08-comparador.pdf)
+- 📄 [09 — Minha Coleção](docs/09-minha-colecao.pdf)
+
+---
+
 ## Referências
 
 ### PokéAPI
