@@ -6,7 +6,7 @@ O projeto tem como objetivo aplicar conceitos de **UX/UI Design, HTML, CSS e Jav
 
 ---
 
-## 👥 Integrantes
+## Integrantes
 
 * Gustavo Oliveira
 * Karoline Garlet Goulart
@@ -17,7 +17,7 @@ O projeto tem como objetivo aplicar conceitos de **UX/UI Design, HTML, CSS e Jav
 
 ---
 
-## 🎨 Protótipo
+## Protótipo
 
 O protótipo de alta fidelidade foi desenvolvido no **Figma**, considerando a identidade visual do projeto, a organização das telas e a jornada de navegação do usuário.
 
@@ -29,7 +29,7 @@ O arquivo PDF do protótipo está disponível em:
 
 ---
 
-## 💻 Tecnologias utilizadas
+## Tecnologias utilizadas
 
 * HTML5
 * CSS3
@@ -39,7 +39,7 @@ O arquivo PDF do protótipo está disponível em:
 
 ---
 
-## 📊 Estrutura de dados
+## Estrutura de dados
 
 Foi desenvolvida uma estrutura de dados estática em JavaScript contendo um array com **3 objetos Pokémon**, utilizando como referência os dados retornados pela PokéAPI.
 
@@ -51,7 +51,7 @@ Arquivo:
 
 ---
 
-## 🌐 Página desenvolvida
+## Página desenvolvida
 
 A estrutura HTML de uma das páginas da aplicação está disponível em:
 
@@ -67,7 +67,7 @@ A estilização da página está localizada em:
 
 ---
 
-## 📁 Estrutura do projeto
+## Estrutura do projeto
 
 ```text
 pokedex-pm2/
@@ -93,7 +93,7 @@ pokedex-pm2/
 
 ---
 
-## 🔗 Referências
+## Referências
 
 ### PokéAPI
 
