@@ -70,25 +70,29 @@ A estilização da página está localizada em:
 ## Estrutura do projeto
 
 ```text
-pokedex-pm2/
+Pokedeex-pm2/
 │
 ├── README.md
 │
 ├── docs/
-│   └── prototipo-alta-fidelidade.pdf
+│   ├── 01-login.pdf
+│   ├── 02-registro.pdf
+│   ├── 03-site-inicial-logar.pdf
+│   ├── 04-pokedex-logar.pdf
+│   ├── 05-detalhe-logar.pdf
+│   ├── 06-pokedex-logado.pdf
+│   ├── 07-detalhes-logado.pdf
+│   ├── 08-comparador.pdf
+│   └── 09-minha-colecao.pdf
 │
-├── src/
-│   ├── index.html
-│   │
-│   ├── css/
-│   │   └── style.css
-│   │
-│   └── js/
-│       └── pokemon.js
-│
-└── assets/
-    ├── img/
-    └── icons/
+└── src/
+    ├── index.html
+    │
+    ├── css/
+    │   └── style.css
+    │
+    └── js/
+        └── pokemon.js
 ```
 
 ---
