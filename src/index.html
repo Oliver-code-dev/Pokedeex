@@ -3,13 +3,382 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Skyquaza - Pokédex</title>
+    <title>Pokédex - Início</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
+    <header class="site-header">
+        <nav aria-label="Navegação principal" class="navegationbar">
+            <ul class="navegationLinks">
+                <li><a href="#inicio">Início</a></li>
+                <li><a href="#destaques">Destaques</a></li>
+                <li>
+                    <a href="#comparador">Comparador</a>
+                    <ul>
+                        <li><a href="#comparador">Minhas comparações</a></li>
+                        <li><a href="#comparador">Comparações favoritas</a></li>
+                    </ul>
+                </li>
+                <li><a href="#pokedex">Pokedex</a></li>
+                <li><a href="#fanart">FanArt</a></li>
+                <li><a href="#sobre">Sobre</a></li>
+            </ul>
+        </nav>
 
-    <h1>Skyquaza</h1>
+        <section aria-label="Acesso do usuário">
+            <a href="#login">Login</a>
+            <a href="#sign-up">Sign Up</a>
+        </section>
+    </header>
 
+    <main>
+        <section id="inicio">
+            <h1>Todos os Pokémon em um só lugar.</h1>
+            <h2>Descubra quem é o mais forte!</h2>
+            <p>Encontre, compare e explore seus Pokémon favoritos.</p>
+            <a href="#destaques">Comece a explorar agora</a>
+        </section>
+
+        <section id="destaques">
+            
+            <h2>Destaques</h2>
+            <div class="cards-container">
+                    <article id="gengarCard">
+                        <img src="gengar.png" alt="Pokémon Gengar">
+                        <h3>Gengar</h3>
+                        <div class="tipos container">
+                            <p class="tipo fantasma">Fantasma</sp>
+                            <p class="tipo veneno">Veneno</p>
+                        </div>
+                    </article>
+
+                    <article id="mimikyuCard">
+                        <img src="mimikyu.png" alt="Pokémon mimikyu">
+                        <h3>Mimikyu</h3>
+                        <div class=" tipos container">
+                            <p class="tipo fantasma">Fantasma</p>
+                            <p class="tipo fada">Fada</p>
+                        </div>
+                    </article>
+
+                    <article id="rioluCard">
+                        <img src="riolu.png" alt="Pokémon riolu">
+                        <h3>Riolu</h3>
+                        <div>
+                            <p class="tipo lutador">Lutador</p>
+                        </div>
+                    </article>
+
+                    <article id="rioluDecoration">
+                        <img src="Group 155.png" alt=" Pokémon riolu evolution">
+                    </article>
+            </div>     
+        </section>
+
+        <section id="comparador">
+            <div class="comparador-contenedor">
+                <div class="comparador-info">
+                    <h2>COMPARADOR</h2>
+                    <h3>DESCUBRA QUEM É O MAIS FORTE!</h3>
+                    <p>Encontre a <strong>combinação ideal</strong> e monte a <strong>equipe perfeita!</strong> Compare atributos, explore as fraquezas, resistências e habilidades de cada Pokémon.</p>
+                    <button type="button" id="iniciar-comparacao">COMECE A COMPARAR AGORA</button>
+                </div>
+
+                <div class="comparador-visual" aria-label="Área de comparação">
+                    <article class="tarjeta-pokemon" data-posicao="1">
+                        <div class="pokemon-card">
+                            <div class="pokebola" aria-hidden="true"><span></span></div>
+                            <img class="pokemon-sprite" alt="">
+                        </div>
+                        <label for="pokemon-1" class="sr-only">Escolha o primeiro Pokémon:</label>
+                        <select id="pokemon-1" name="pokemon-1">
+                            <option value="">POKEMON 1</option>
+                            <option value="gengar">Gengar</option>
+                            <option value="mimikyu">Mimikyu</option>
+                            <option value="riolu">Riolu</option>
+                        </select>
+                    </article>
+
+                    <div class="vs-texto" aria-hidden="true">VS</div>
+
+                    <article class="tarjeta-pokemon" data-posicao="2">
+                        <div class="pokemon-card">
+                            <div class="pokebola" aria-hidden="true"><span></span></div>
+                            <img class="pokemon-sprite" alt="">
+                        </div>
+                        <label for="pokemon-2" class="sr-only">Escolha o segundo Pokémon:</label>
+                        <select id="pokemon-2" name="pokemon-2">
+                            <option value="">POKEMON 2</option>
+                            <option value="gengar">Gengar</option>
+                            <option value="mimikyu">Mimikyu</option>
+                            <option value="riolu">Riolu</option>
+                        </select>
+                    </article>
+
+                    <div class="stats" aria-live="polite">
+                        <div class="stat-row" data-stat="hp"><output class="stat-value stat-value--left">??</output><div class="stat-bar stat-bar--left"><span></span></div><span class="stat-label">HP</span><div class="stat-bar stat-bar--right"><span></span></div><output class="stat-value stat-value--right">??</output></div>
+                        <div class="stat-row" data-stat="attack"><output class="stat-value stat-value--left">??</output><div class="stat-bar stat-bar--left"><span></span></div><span class="stat-label">ATAQUE</span><div class="stat-bar stat-bar--right"><span></span></div><output class="stat-value stat-value--right">??</output></div>
+                        <div class="stat-row" data-stat="defense"><output class="stat-value stat-value--left">??</output><div class="stat-bar stat-bar--left"><span></span></div><span class="stat-label">DEFESA</span><div class="stat-bar stat-bar--right"><span></span></div><output class="stat-value stat-value--right">??</output></div>
+                        <div class="stat-row" data-stat="specialAttack"><output class="stat-value stat-value--left">??</output><div class="stat-bar stat-bar--left"><span></span></div><span class="stat-label">AT. ESP.</span><div class="stat-bar stat-bar--right"><span></span></div><output class="stat-value stat-value--right">??</output></div>
+                        <div class="stat-row" data-stat="specialDefense"><output class="stat-value stat-value--left">??</output><div class="stat-bar stat-bar--left"><span></span></div><span class="stat-label">DEF. ESP.</span><div class="stat-bar stat-bar--right"><span></span></div><output class="stat-value stat-value--right">??</output></div>
+                        <div class="stat-row" data-stat="speed"><output class="stat-value stat-value--left">??</output><div class="stat-bar stat-bar--left"><span></span></div><span class="stat-label">VELOCIDADE</span><div class="stat-bar stat-bar--right"><span></span></div><output class="stat-value stat-value--right">??</output></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section id="pokedex">
+            <h2>Pokédex</h2>
+            
+        <div class="pokemon-container">
+            <article>
+                <p>Nº 001</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png" alt="Pokémon Bulbasaur" width="130">
+                <h3>Bulbasaur</h3>
+                <p class="tipo planta"> Planta</p>
+            </article>
+
+            <article>
+                <p>Nº 002</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png" alt="Pokémon Ivysaur" width="130">
+                <h3>Ivysaur</h3>
+                <div class="tipos container">
+                    <p class="tipo planta"> Planta</p>
+                    <p class="tipo veneno"> Veneno</p>
+                </div>
+            </article>
+
+            <article>
+                <p>Nº 003</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png" alt="Pokémon Venusaur" width="130">
+                <h3>Venusaur</h3>
+                <div class="tipos container">
+                    <p class="tipo planta"> Planta</p>
+                    <p class="tipo veneno"> Veneno</p>
+                </div>
+            </article>
+
+            <article>
+                <p>Nº 004</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png" alt="Pokémon Charmander" width="130">
+                <h3>Charmander</h3>
+                <p class="tipo fogo"> Fogo</p>
+            </article>
+
+            <article>
+                <p>Nº 005</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png" alt="Pokémon Charmander" width="130">
+                <h3>Charmeleon</h3>
+                <p class="tipo fogo"> Fogo</p>
+            </article>
+
+            <article>
+                <p>Nº 006</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png" alt="Pokémon Charizard" width="130">
+                <h3>Charizard</h3>
+                <div class="tipos container">
+                    <p class="tipo fogo"> Fogo </p>
+                    <p class="tipo voador"> Voador </p>
+                </div>
+                
+            </article>
+
+            <article>
+                <p>Nº 007</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png" alt="Pokémon Squirtle" width="130">
+                <h3>Squirtle</h3>
+                <p class="tipo agua"> Água</p>
+            </article>
+
+            <article>
+                <p>Nº 008</p>
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png" alt="Pokémon Wartortle" width="130">
+                <h3>Wartortle</h3>
+                <p class="tipo agua"> Água</p>
+            </article>
+        </div>
+        </section>
+
+        <section id="fanart">
+            <div class="fanart-shell">
+                <header class="fanart-header">
+                    <div>
+                        <p class="fanart-kicker">GALERIA DA COMUNIDADE</p>
+                        <h2>FANARTS</h2>
+                    </div>
+                    <button class="fanart-publish" type="button">+ PUBLICAR FANART</button>
+                </header>
+
+                <div class="fanart-controls">
+                    <span class="fanart-explore">Explorar</span>
+                    <div class="fanart-filters" aria-label="Filtrar fanarts">
+                        <button type="button" class="is-active">DESTAQUES</button>
+                        <button type="button">RECENTES</button>
+                        <button type="button">MAIS CURTIDAS</button>
+                    </div>
+                    <label class="fanart-search" for="buscar-fanart">
+                        <span aria-hidden="true">⌕</span>
+                        <input id="buscar-fanart" type="search" placeholder="BUSCAR FANART">
+                    </label>
+                </div>
+
+                <div class="fanart-gallery">
+                    <div class="fanart-column">
+                        <article class="fanart-card fanart-card--featured">
+                            <div class="fanart-media">
+                                <img src="images/fanart/solgaleo.png" alt="Fanart de Solgaleo">
+                                <span class="fanart-featured-label">DESTAQUE</span>
+                                <span class="fanart-likes">♥ 248</span>
+                            </div>
+                            <div class="fanart-card-body">
+                                <h3>Solgaleo</h3>
+                                <div class="fanart-card-meta"><span>@nicholaskole</span><span class="fanart-tag fanart-tag--blue">Alola</span></div>
+                                <a class="fanart-more" href="#fanart">Ver obra completa →</a>
+                            </div>
+                        </article>
+
+                        <article class="fanart-card">
+                            <div class="fanart-media"><img src="images/fanart/lord-of-the-ocean.png" alt="Fanart de Lugia sobre o oceano"></div>
+                            <div class="fanart-card-body">
+                                <h3>Lord of the Ocean</h3>
+                                <div class="fanart-card-meta"><span>@danidl</span><span class="fanart-tag fanart-tag--blue">Johto</span></div>
+                                <span class="fanart-card-likes">♥ 89</span>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="fanart-column">
+                        <article class="fanart-card">
+                            <div class="fanart-media"><img src="images/fanart/sun-and-moon.png" alt="Fanart com Rowlet, Popplio e Litten"></div>
+                            <div class="fanart-card-body">
+                                <h3>Pokémon Sun and Moon</h3>
+                                <div class="fanart-card-meta"><span>@nicholaskole</span><span class="fanart-tag fanart-tag--blue">Alola</span></div>
+                                <span class="fanart-card-likes">♥ 96</span>
+                            </div>
+                        </article>
+
+                        <article class="fanart-card">
+                            <div class="fanart-media"><img src="images/fanart/shellder.png" alt="Fanart de Shellder"></div>
+                            <div class="fanart-card-body">
+                                <h3>Shellder</h3>
+                                <div class="fanart-card-meta"><span>@pangsiluigi</span><span class="fanart-tag fanart-tag--green">Kanto</span></div>
+                                <span class="fanart-card-likes">♥ 73</span>
+                            </div>
+                        </article>
+                    </div>
+
+                    <div class="fanart-column">
+                        <article class="fanart-card">
+                            <div class="fanart-media"><img src="images/fanart/chaotic-summer-picnic.png" alt="Fanart de um piquenique Pokémon"></div>
+                            <div class="fanart-card-body">
+                                <h3>A Chaotic Summer Picnic</h3>
+                                <div class="fanart-card-meta"><span>@annarizzi.illustrator</span><span class="fanart-tag fanart-tag--yellow">Picnic</span></div>
+                                <span class="fanart-card-likes">♥ 84</span>
+                            </div>
+                        </article>
+
+                        <article class="fanart-card">
+                            <div class="fanart-media"><img src="images/fanart/entei.png" alt="Fanart de Entei"></div>
+                            <div class="fanart-card-body">
+                                <h3>Entei</h3>
+                                <div class="fanart-card-meta"><span>@darkIndigo</span><span class="fanart-tag fanart-tag--orange">FireType</span></div>
+                                <span class="fanart-card-likes">♥ 84</span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-main">
+            <section class="footer-brand" aria-label="Pokédex">
+                <span class="footer-pokebola" aria-hidden="true"><span></span></span>
+                <div>
+                    <h2>POKÉDEX</h2>
+                    <p>Todos os Pokémon em um só lugar.</p>
+                </div>
+            </section>
+
+            <div class="footer-links">
+                <nav aria-label="Links da Pokédex">
+                    <h3>Pokédex</h3>
+                    <ul>
+                        <li><a href="#comparador">Comparador</a></li>
+                        <li><a href="#destaques">Atributos</a></li>
+                        <li><a href="#destaques">Estatísticas</a></li>
+                        <li><a href="#destaques">Habilidades</a></li>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Links para explorar">
+                    <h3>Explorar</h3>
+                    <ul>
+                        <li><a href="index.html">Início</a></li>
+                        <li><a href="#destaques">Destaques</a></li>
+                        <li><a href="#comparador">Comparar</a></li>
+                        <li><a href="#destaques">Gerações</a></li>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Links da comunidade">
+                    <h3>Comunidade</h3>
+                    <ul>
+                        <li><a href="#times">Times</a></li>
+                        <li><a href="#favoritos">Favoritos</a></li>
+                        <li><a href="#ranking">Ranking</a></li>
+                        <li><a href="#fanart">Fanarts</a></li>
+                    </ul>
+                </nav>
+
+                <nav aria-label="Links da conta">
+                    <h3>Conta</h3>
+                    <ul>
+                        <li><a href="#login">Login</a></li>
+                        <li><a href="#sign-up">Sign Up</a></li>
+                        <li><a href="#contato">Contato</a></li>
+                        <li><a href="#configuracoes">Configurações</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <section class="footer-newsletter">
+                <h2>FIQUE POR DENTRO DAS NOVIDADES</h2>
+                <p>Receba as novidades, atualizações e conteúdos exclusivos no seu e-mail</p>
+                <form action="#" method="post">
+                    <label for="email-inicio" class="sr-only">Seu e-mail:</label>
+                    <span class="email-icon" aria-hidden="true"></span>
+                    <input type="email" id="email-inicio" name="email" placeholder="Seu e-mail">
+                    <button type="submit" class="sr-only">Inscrever-se</button>
+                </form>
+            </section>
+        </div>
+
+        <div class="footer-social">
+            <nav aria-label="Redes sociais">
+                <h2 class="sr-only">Redes sociais</h2>
+                <ul>
+                    <li><a href="#instagram" aria-label="Instagram"><img src="https://cdn.simpleicons.org/instagram/eff4fb" alt=""></a></li>
+                    <li><a href="#discord" aria-label="Discord"><img src="https://cdn.simpleicons.org/discord/eff4fb" alt=""></a></li>
+                    <li><a href="#github" aria-label="GitHub"><img src="https://cdn.simpleicons.org/github/eff4fb" alt=""></a></li>
+                    <li><a href="#x" aria-label="X"><img src="https://cdn.simpleicons.org/x/eff4fb" alt=""></a></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="footer-meta">
+            <p>&copy; 2026 Pokédex. Todos os direitos reservados.</p>
+            <nav aria-label="Links legais">
+                <ul>
+                    <li><a href="#termos">Termos de uso</a></li>
+                    <li><a href="#privacidade">Política de privacidade</a></li>
+                    <li><a href="#contato">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </footer>
 </body>
 </html>
