@@ -169,7 +169,26 @@ A implementação está disponível em:
 
 ---
 
-## 8. Página Desenvolvida
+## 8. Recursos Visuais
+
+O projeto utiliza diferentes recursos visuais para compor as interfaces da aplicação, incluindo imagens de Pokémon, fundos, ícones e outros elementos gráficos.
+
+Os arquivos utilizados no desenvolvimento estão organizados na pasta:
+
+[`src/assets/`](src/assets/)
+
+### Organização dos recursos
+
+- **`images/pokemon/`** — imagens e sprites dos Pokémon;
+- **`images/backgrounds/`** — imagens utilizadas como fundos e cenários;
+- **`images/icons/`** — ícones utilizados nas interfaces;
+- **`images/others/`** — outros recursos visuais utilizados no projeto.
+
+A organização dos recursos tem como objetivo facilitar a manutenção do projeto e manter os arquivos separados de acordo com sua finalidade.
+
+---
+
+## 9. Página Desenvolvida
 
 Como parte da implementação do projeto, foi desenvolvida uma página utilizando **HTML5, CSS3 e JavaScript**, tendo como referência o protótipo de alta fidelidade desenvolvido no Figma.
 
@@ -183,12 +202,11 @@ Os arquivos responsáveis pela implementação são:
 
 ---
 
-## 9. Organização do Projeto
+## 10. Organização do Projeto
 
 O repositório foi organizado de forma a separar os documentos de prototipação dos arquivos utilizados no desenvolvimento da aplicação.
 
-```text
-Pokedeex/
+```textPokedeex/
 │
 ├── README.md
 │
@@ -209,8 +227,17 @@ Pokedeex/
     ├── css/
     │   └── style.css
     │
-    └── js/
-        └── pokemon.js
+    ├── js/
+    │   └── pokemon.js
+    │
+    └── assets/
+        ├── images/
+        │   ├── pokemon/
+        │   ├── backgrounds/
+        │   ├── icons/
+        │   └── others/
+        │
+        └── ...
 ```
 
 ### Organização das pastas
@@ -233,7 +260,7 @@ Contém os arquivos JavaScript e as estruturas de dados utilizadas no projeto.
 
 ---
 
-## 10. Evolução do Projeto
+## 11. Evolução do Projeto
 
 O desenvolvimento da aplicação ocorre de forma incremental, acompanhando as etapas propostas nos projetos mensais.
 
@@ -261,7 +288,7 @@ No PM2, o projeto avança para a etapa de desenvolvimento e detalhamento visual,
 
 ---
 
-## 11. Referências
+## 12. Referências
 
 ### PokéAPI
 
@@ -289,7 +316,7 @@ O Notion foi utilizado para documentação e organização das informações rel
 
 ---
 
-## 12. Status do Projeto
+## 13. Status do Projeto
 
 **Em desenvolvimento.**
 
