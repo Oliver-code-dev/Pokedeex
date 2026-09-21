@@ -175,14 +175,14 @@ O projeto utiliza diferentes recursos visuais para compor as interfaces da aplic
 
 Os arquivos utilizados no desenvolvimento estão organizados na pasta:
 
-[`src/assets/`](src/assets/)
+[`src/assets/`](https://github.com/Oliver-code-dev/Pokedeex/tree/main/src/assets)
 
 ### Organização dos recursos
 
-- **`images/pokemon/`** — imagens e sprites dos Pokémon;
-- **`images/backgrounds/`** — imagens utilizadas como fundos e cenários;
-- **`images/icons/`** — ícones utilizados nas interfaces;
-- **`images/others/`** — outros recursos visuais utilizados no projeto.
+- **[`images/pokemon/`](https://github.com/Oliver-code-dev/Pokedeex/tree/main/src/assets/images/pokemon)** — imagens e sprites dos Pokémon;
+- **[`images/backgrounds/`](https://github.com/Oliver-code-dev/Pokedeex/tree/main/src/assets/images/backgrounds)** — imagens utilizadas como fundos e cenários;
+- **[`images/icons/`](https://github.com/Oliver-code-dev/Pokedeex/tree/main/src/assets/images/icons)** — ícones utilizados nas interfaces;
+- **[`images/others/`](https://github.com/Oliver-code-dev/Pokedeex/tree/main/src/assets/images/others)** — outros recursos visuais utilizados no projeto.
 
 A organização dos recursos tem como objetivo facilitar a manutenção do projeto e manter os arquivos separados de acordo com sua finalidade.
 
