@@ -103,18 +103,18 @@ Os protótipos desenvolvidos no Figma estão disponíveis nos arquivos abaixo:
 
 ### Fluxo não autenticado — Logar
 
-- [Login](docs/Login.pdf)
-- [Registro](docs/Registro.pdf)
-- [Site Inicial](docs/SITE%20INICIAL%20A.%20LOGAR.pdf)
-- [Pokédex](docs/POKEdEX%20A.%20LOGAR.pdf)
-- [Detalhes do Pokémon](docs/DETALHE%20A.%20LOGAR.pdf)
+- [Login](docs/login.pdf)
+- [Registro](docs/registro.pdf)
+- [Site Inicial](docs/site-inicial-logar.pdf)
+- [Pokédex](docs/pokedex-logar.pdf)
+- [Detalhes do Pokémon](docs/detalhe-logar.pdf)
 
 ### Fluxo autenticado — Logado
 
-- [Pokédex](docs/POKEdEX%20D.%20LOGAR.pdf)
-- [Detalhes do Pokémon](docs/DETALHES%20D.%20LOGAR.pdf)
-- [Comparador](docs/COMPARADOR.pdf)
-- [Minha Coleção](docs/MINHA%20COLE%C3%87%C3%83O.pdf)
+- [Pokédex](docs/pokedex-logado.pdf)
+- [Detalhes do Pokémon](docs/detalhes-logado.pdf)
+- [Comparador](docs/comparador.pdf)
+- [Minha Coleção](docs/minha-colecao.pdf)
 
 ---
 
