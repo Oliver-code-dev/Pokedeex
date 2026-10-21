@@ -1,0 +1,916 @@
+
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    :root {
+        --fundo: #0c1118;
+        --azul: #203e61;
+        --azul-escuro: #10345b;
+        --azul-card: #12365d;
+        --azul-claro: #315b88;
+        --azul-borda: #416b9c;
+        --destaque: #00baff;
+        --branco: #ffffff;
+        --preto: #000000;
+    }
+
+    body {
+        background: var(--fundo);
+        color: var(--branco);
+        font-family: 'Poppins', sans-serif;
+        font-size: 11px;
+    }
+
+    a {
+        color: inherit;
+        text-decoration: none;
+    }
+
+    button,
+    input {
+        font-family: inherit;
+    }
+
+    button {
+        cursor: pointer;
+    }
+
+
+    .pagina {
+        width: 94%;
+        max-width: 1250px;
+        min-height: 100vh;
+        margin: 0 auto;
+        padding: 0 22px;
+        background: var(--azul);
+        border-left: 2px solid var(--preto);
+        border-right: 2px solid var(--preto);
+        border-bottom: 2px solid var(--preto);
+    }
+
+    .cabecalho {
+        min-height: 62px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+        flex-shrink: 0;
+        color: var(--branco);
+        font-family: 'Oswald', sans-serif;
+        font-size: 19px;
+        font-weight: 600;
+        letter-spacing: -1px;
+        white-space: nowrap;
+    }
+
+    .menu {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: clamp(10px, 2vw, 25px);
+    }
+
+    .menu a {
+        position: relative;
+        color: var(--branco);
+        font-size: 10px;
+        font-weight: 500;
+        white-space: nowrap;
+        transition: color 0.2s ease;
+    }
+
+    .menu a:hover,
+    .menu .ativo {
+        color: var(--destaque);
+    }
+
+    .perfil {
+        width: 25px;
+        height: 25px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--azul-escuro);
+        background: var(--branco);
+        border: 1px solid var(--preto);
+        border-radius: 50%;
+    }
+
+    .perfil span {
+        font-size: 13px;
+    }
+
+
+    .filtros {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin: 16px 10px 25px;
+    }
+
+    .campo-pesquisa {
+        width: 360px;
+        max-width: 100%;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+        padding: 0 10px;
+        background: #ffffff;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        box-shadow: 2px 3px 0 #000000;
+    }
+
+    .campo-pesquisa input {
+        width: 100%;
+        min-width: 0;
+        border: none;
+        outline: none;
+        background: transparent;
+        color: #222222;
+        font-size: 10px;
+    }
+
+    .campo-pesquisa input::placeholder {
+        color: #777777;
+    }
+
+    .icone-pesquisa {
+        position: relative;
+        width: 13px;
+        height: 13px;
+        flex-shrink: 0;
+        border: 1.5px solid #555555;
+        border-radius: 50%;
+    }
+
+    .icone-pesquisa::after {
+        content: "";
+        position: absolute;
+        right: -5px;
+        bottom: -2px;
+        width: 6px;
+        height: 1.5px;
+        background: #555555;
+        transform: rotate(45deg);
+    }
+
+    .filtro {
+        width: 34px;
+        height: 36px;
+        flex-shrink: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        color: #111111;
+        background: #f5f5f5;
+        border: 1px solid #000000;
+        border-radius: 4px;
+        box-shadow: 2px 3px 0 #000000;
+        transition: background 0.2s ease;
+    }
+
+    .filtro:hover {
+        background: #d8e7f5;
+    }
+
+    .icone-filtro,
+    .icone-tipo,
+    .icone-ordem {
+        font-size: 17px;
+        line-height: 1;
+    }
+
+    .botao-tipos {
+        border-radius: 50%;
+        font-size: 17px;
+    }
+
+
+    .secao {
+        margin: 0 10px 27px;
+    }
+
+    .titulo-secao {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 13px;
+    }
+
+    .titulo-secao h2 {
+        color: #ffffff;
+        font-size: clamp(13px, 1.35vw, 20px);
+        font-weight: 700;
+        line-height: 1.5;
+    }
+
+    .titulo-secao a {
+        flex-shrink: 0;
+        color: var(--destaque);
+        font-size: 10px;
+        transition: color 0.2s ease;
+    }
+
+    .titulo-secao a:hover {
+        color: #ffffff;
+    }
+
+
+    .colecao-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .card-vazio,
+    .pokemon-card {
+        position: relative;
+        min-width: 0;
+        height: 220px;
+        overflow: hidden;
+        background: var(--azul-card);
+        border: 2px solid #000000;
+        box-shadow: 3px 4px 0 #000000;
+        transition: transform 0.2s ease,
+                    background 0.2s ease;
+    }
+
+    .card-vazio:hover,
+    .pokemon-card:hover {
+        transform: translateY(-2px);
+        background: #17416b;
+    }
+
+
+    .numero-pokemon,
+    .pokemon-card .numero {
+        position: absolute;
+        z-index: 2;
+        top: 5px;
+        left: 5px;
+        max-width: calc(100% - 32px);
+        overflow: hidden;
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 600;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .coracao,
+    .botao-favorito {
+        position: absolute;
+        z-index: 3;
+        top: 4px;
+        right: 5px;
+        padding: 0;
+        color: #ffffff;
+        background: transparent;
+        border: none;
+        font-size: 21px;
+        line-height: 1;
+        cursor: pointer;
+    }
+
+    .coracao:hover,
+    .botao-favorito:hover,
+    .botao-favorito.favoritado {
+        color: #ff6886;
+    }
+
+    .imagem-pokemon {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-size: 75px;
+    }
+
+    .imagem-pokemon img,
+    .pokemon-card .imagem-pokemon img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        padding: 14px;
+        object-fit: contain;
+        image-rendering: pixelated;
+    }
+
+
+    .nome-pokemon,
+    .pokemon-card .informacoes-pokemon h3 {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        padding: 5px;
+        overflow: hidden;
+        color: #ffffff;
+        background: rgba(8, 26, 46, 0.8);
+        font-size: 9px;
+        font-weight: 500;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+
+    .pokemon-card {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pokemon-card .card-topo {
+        position: absolute;
+        inset: 0 0 auto;
+        z-index: 2;
+    }
+
+    .pokemon-card .imagem-pokemon {
+        position: absolute;
+        inset: 0;
+        height: 100%;
+    }
+
+    .pokemon-card .informacoes-pokemon {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        min-height: 28px;
+        padding-bottom: 17px;
+    }
+
+    .pokemon-card .informacoes-pokemon h3 {
+        bottom: 0;
+    }
+
+    .pokemon-card .tipos {
+        display: none;
+    }
+
+    .pokemon-card .botao-detalhes {
+        position: absolute;
+        right: 5px;
+        bottom: 32px;
+        z-index: 2;
+        width: 22px;
+        height: 22px;
+        color: #ffffff;
+        background: #315b88;
+        border: 1px solid #000000;
+        border-radius: 50%;
+    }
+
+    .colecao-vazia {
+        grid-column: 1 / -1;
+        padding: 22px 12px;
+        color: rgba(255, 255, 255, 0.8);
+        text-align: center;
+    }
+
+
+
+    .comparacoes {
+        margin-top: 25px;
+    }
+
+    .comparacoes-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        align-items: start;
+        gap: 13px;
+    }
+
+
+    .comparacao-card {
+        position: relative;
+        min-width: 0;
+        padding: 10px 6px 6px;
+        background: linear-gradient(
+            145deg,
+            #315b88,
+            #24466c
+        );
+        border: 2px solid #000000;
+        border-radius: 8px;
+        box-shadow: 3px 4px 0 #000000;
+        transition: transform 0.2s ease;
+    }
+
+    .comparacao-card:hover {
+        transform: translateY(-2px);
+    }
+
+    .titulo-comparacao {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        z-index: 2;
+        max-width: 75%;
+        padding: 2px 9px;
+        overflow: hidden;
+        color: #ffffff;
+        background: #496b8d;
+        border: 1px solid #000000;
+        border-radius: 5px;
+        font-size: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        transform: translateX(-50%);
+    }
+
+    .duelo {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        gap: 4px;
+    }
+
+    .pokemon-comparacao {
+        position: relative;
+        min-width: 0;
+        min-height: 105px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        background: #10345b;
+        border: 1px solid #000000;
+        border-radius: 6px;
+    }
+
+    .pokemon-comparacao img {
+        display: block;
+        width: 100%;
+        height: 70px;
+        padding: 4px;
+        object-fit: contain;
+        image-rendering: pixelated;
+    }
+
+    .pokemon-comparacao .nome-pokemon {
+        position: static;
+        display: block;
+        width: 100%;
+        padding: 4px 2px;
+        background: rgba(8, 26, 46, 0.8);
+        font-size: 8px;
+        text-align: center;
+    }
+
+    .versus {
+        color: #ffffff;
+        font-size: 10px;
+        font-weight: 700;
+        text-shadow: 1px 2px #000000;
+    }
+
+    .coracao-comparacao {
+        position: absolute;
+        top: 2px;
+        right: 3px;
+        z-index: 3;
+        padding: 0;
+        color: #ffffff;
+        background: transparent;
+        border: none;
+        font-size: 16px;
+    }
+
+    .coracao-comparacao:hover,
+    .coracao-comparacao.favoritado {
+        color: #ff6886;
+    }
+
+    .remover-comparacao {
+        position: absolute;
+        top: 3px;
+        left: 4px;
+        z-index: 3;
+        color: #ffffff;
+        background: transparent;
+        border: none;
+        font-size: 11px;
+        opacity: 0.7;
+    }
+
+    .remover-comparacao:hover {
+        color: #ff6886;
+        opacity: 1;
+    }
+
+
+
+    .rodape {
+        margin: 24px -22px 0;
+        padding: 25px 22px 10px;
+        background: #1b3552;
+        border-top: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+
+    .newsletter {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-bottom: 24px;
+        text-align: center;
+    }
+
+    .newsletter h3 {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    .newsletter p {
+        max-width: 360px;
+        margin: 7px 0 12px;
+        color: rgba(255, 255, 255, 0.65);
+        font-size: 9px;
+        line-height: 1.7;
+    }
+
+    .form-newsletter {
+        display: flex;
+        width: 250px;
+        max-width: 100%;
+        height: 32px;
+        overflow: hidden;
+        background: #315b88;
+        border: 1px solid #ffffff;
+        border-radius: 6px;
+    }
+
+    .form-newsletter input {
+        width: 100%;
+        min-width: 0;
+        padding: 0 9px;
+        color: #ffffff;
+        background: transparent;
+        border: none;
+        outline: none;
+        font-size: 9px;
+    }
+
+    .form-newsletter input::placeholder {
+        color: rgba(255, 255, 255, 0.75);
+    }
+
+    .form-newsletter button {
+        width: 34px;
+        flex-shrink: 0;
+        color: #ffffff;
+        background: #416b9c;
+        border: none;
+        border-left: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .form-newsletter button:hover {
+        background: #527da9;
+    }
+
+
+    .footer-conteudo {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        padding: 12px 0;
+        border-top: 1px solid rgba(255, 255, 255, 0.15);
+    }
+
+    .logo-footer {
+        flex-shrink: 0;
+        color: #ffffff;
+        font-size: 20px;
+        font-weight: 500;
+        letter-spacing: -1px;
+        text-shadow: 2px 2px #000000;
+    }
+
+    .footer-links {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 16px;
+    }
+
+    .footer-links a {
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 8px;
+    }
+
+    .footer-links a:hover {
+        color: #ffffff;
+    }
+
+    .redes-sociais {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .redes-sociais a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 20px;
+        height: 20px;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .redes-sociais a:hover {
+        color: var(--destaque);
+    }
+
+    .footer-final {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        padding-top: 8px;
+        color: rgba(255, 255, 255, 0.45);
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 8px;
+    }
+
+
+    @media (max-width: 850px) {
+        .pagina {
+            width: 97%;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+
+        .cabecalho {
+            flex-wrap: wrap;
+            padding: 12px 0;
+            gap: 12px;
+        }
+
+        .menu {
+            order: 3;
+            width: 100%;
+            justify-content: space-between;
+            gap: 10px;
+        }
+
+        .menu a {
+            font-size: 9px;
+        }
+
+        .filtros {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .secao {
+            margin-right: 0;
+            margin-left: 0;
+        }
+
+        .colecao-grid {
+            gap: 8px;
+        }
+
+        .card-vazio,
+        .pokemon-card {
+            height: 190px;
+        }
+
+        .comparacoes-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+
+        .rodape {
+            margin-right: -15px;
+            margin-left: -15px;
+            padding-right: 15px;
+            padding-left: 15px;
+        }
+    }
+
+
+    @media (max-width: 560px) {
+        .pagina {
+            width: 100%;
+            padding-right: 12px;
+            padding-left: 12px;
+        }
+
+        .cabecalho {
+            gap: 10px;
+        }
+
+        .logo {
+            font-size: 17px;
+        }
+
+        .menu {
+            justify-content: flex-start;
+            gap: 15px;
+            overflow-x: auto;
+            padding: 5px 0 8px;
+        }
+
+        .menu a {
+            font-size: 9px;
+        }
+
+        .perfil {
+            width: 23px;
+            height: 23px;
+        }
+
+        .filtros {
+            gap: 5px;
+            margin: 14px 0 22px;
+        }
+
+        .campo-pesquisa {
+            flex: 1;
+            width: auto;
+            height: 33px;
+            gap: 7px;
+            padding: 0 7px;
+        }
+
+        .campo-pesquisa input {
+            font-size: 9px;
+        }
+
+        .filtro {
+            width: 29px;
+            height: 33px;
+        }
+
+        .icone-filtro,
+        .icone-tipo,
+        .icone-ordem {
+            font-size: 14px;
+        }
+
+        .secao {
+            margin-bottom: 24px;
+        }
+
+        .titulo-secao {
+            gap: 7px;
+            margin-bottom: 12px;
+        }
+
+        .titulo-secao h2 {
+            font-size: 12px;
+        }
+
+        .titulo-secao a {
+            font-size: 9px;
+        }
+
+        .colecao-grid {
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 8px;
+        }
+
+        .card-vazio,
+        .pokemon-card {
+            height: 155px;
+        }
+
+        .numero-pokemon,
+        .pokemon-card .numero {
+            top: 4px;
+            left: 4px;
+            font-size: 8px;
+        }
+
+        .coracao,
+        .botao-favorito {
+            top: 3px;
+            right: 4px;
+            font-size: 18px;
+        }
+
+        .imagem-pokemon img,
+        .pokemon-card .imagem-pokemon img {
+            padding: 10px 4px;
+        }
+
+        .nome-pokemon,
+        .pokemon-card .informacoes-pokemon h3 {
+            padding: 4px 3px;
+            font-size: 8px;
+        }
+
+        .comparacoes {
+            margin-top: 22px;
+        }
+
+        .comparacoes-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+        }
+
+        .comparacao-card {
+            padding: 10px 5px 5px;
+        }
+
+        .pokemon-comparacao {
+            min-height: 90px;
+        }
+
+        .pokemon-comparacao img {
+            height: 58px;
+        }
+
+        .pokemon-comparacao .nome-pokemon {
+            font-size: 7px;
+        }
+
+        .versus {
+            font-size: 9px;
+        }
+
+        .rodape {
+            margin-right: -12px;
+            margin-left: -12px;
+            padding: 20px 12px 10px;
+        }
+
+        .newsletter h3 {
+            font-size: 12px;
+        }
+
+        .newsletter p {
+            font-size: 8px;
+        }
+
+        .footer-conteudo {
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo-footer {
+            font-size: 17px;
+        }
+
+        .footer-links {
+            order: 3;
+            width: 100%;
+            gap: 12px;
+        }
+
+        .footer-links a {
+            font-size: 8px;
+        }
+
+        .redes-sociais {
+            gap: 7px;
+        }
+
+        .footer-final {
+            font-size: 7px;
+        }
+    }
+
+
+    @media (max-width: 350px) {
+        .colecao-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .card-vazio,
+        .pokemon-card {
+            height: 190px;
+        }
+
+        .comparacoes-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .comparacao-card {
+            width: 100%;
+            max-width: 280px;
+        }
+    }
