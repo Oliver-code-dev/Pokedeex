@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pokédex — GuguDex</title>
+  <meta name="description" content="Explore os Pokémon de todas as gerações na GuguDex.">
+  <link rel="icon" href="assets/img/logo-gengar.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/pokedex.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main class="container pokedex">
+    <h1 class="sr-only">Pokédex</h1>
+
+    <div class="barra-ferramentas" id="ferramentas">
+      <form class="campo-busca" role="search" id="form-busca">
+        <label class="campo__caixa">
+          <span class="sr-only">Buscar Pokémon</span>
+          <svg id="icone-lupa" aria-hidden="true" viewBox="0 0 24 24"></svg>
+          <input type="search" id="busca" placeholder="Buscar pokémon" autocomplete="off">
+        </label>
+      </form>
+      <div class="ferramentas__botoes" id="botoes"></div>
+    </div>
+
+    <p class="pokedex__resumo" id="resumo" role="status" aria-live="polite"></p>
+    <div id="conteudo"></div>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script type="module" src="js/pages/pokedex.js"></script>
+</body>
+</html>
