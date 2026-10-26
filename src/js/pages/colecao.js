@@ -10,14 +10,11 @@ import { criarFerramentaMenu } from "../components/ferramentas.js";
 import { icone } from "../icons.js";
 import { $, h, limpar, formatarNumero } from "../dom.js";
 
-
 const sessao = exigirLogin(); // sem login, redireciona para login.html?next=colecao.html
 montarLayout({ ativo: "colecao" });
 
-
 const LIMITE_FAV = 5;   // 1 linha de cards
 const LIMITE_CMP = 3;   // 1 linha de comparações
-
 
 const estado = {
   busca: "", tipo: "", geracao: 0, ordem: "numero-asc",
@@ -25,14 +22,12 @@ const estado = {
   pokemons: new Map(),
 };
 
-
 const ORDENS = {
   "numero-asc": { rotulo: "Número (crescente)", fn: (a, b) => a.id - b.id },
   "numero-desc": { rotulo: "Número (decrescente)", fn: (a, b) => b.id - a.id },
   "nome-asc": { rotulo: "Nome (A–Z)", fn: (a, b) => a.nome.localeCompare(b.nome) },
   "nome-desc": { rotulo: "Nome (Z–A)", fn: (a, b) => b.nome.localeCompare(a.nome) },
 };
-
 
 /* ---------- Dados ---------- */
 async function carregarDados() {
@@ -42,10 +37,8 @@ async function carregarDados() {
   (await getVarios(faltando)).forEach((p) => p && estado.pokemons.set(p.id, p));
 }
 
-
 const termo = () => estado.busca.trim().toLowerCase().replace(/^#/, "");
 const combina = (p, t) => !t || p.nome.toLowerCase().includes(t) || p.nomeJa.includes(t) || formatarNumero(p.id).slice(1).includes(t);
-
 
 /* ---------- Seção: favoritos ---------- */
 function renderizarFavoritos() {
@@ -54,12 +47,10 @@ function renderizarFavoritos() {
   const t = termo();
   const filtrando = Boolean(t || estado.tipo || estado.geracao);
 
-
   const lista = getFavoritos(sessao.usuarioId)
     .map((id) => estado.pokemons.get(id)).filter(Boolean)
     .filter((p) => combina(p, t) && (!estado.tipo || p.tipos.includes(estado.tipo)) && (!estado.geracao || p.geracao === estado.geracao))
     .sort(ORDENS[estado.ordem].fn);
-
 
   const visiveis = estado.expandido.fav ? lista : lista.slice(0, LIMITE_FAV);
   visiveis.forEach((p, i) => grade.append(criarCardPokemon(p, {
@@ -71,14 +62,12 @@ function renderizarFavoritos() {
     },
   })));
 
-
   // espaços vazios no estilo do design ("?") enquanto há poucos favoritos
   if (!filtrando) for (let i = lista.length; i < LIMITE_FAV; i++) {
     const vazioCard = criarCardBloqueado({ mostrarFavorito: true });
     vazioCard.classList.add("card-pokemon--vazio");
     grade.append(vazioCard);
   }
-
 
   vazio.hidden = lista.length > 0;
   limpar(vazio);
@@ -89,14 +78,12 @@ function renderizarFavoritos() {
   atualizarBotao("#mais-fav", "fav", lista.length > LIMITE_FAV);
 }
 
-
 /* ---------- Seção: comparações ---------- */
 function miniLado(p) {
   return h("div", { class: "cmp-card__lado" },
     h("div", { class: "cmp-mini" }, p ? h("img", { src: p.imagem, alt: p.nome, loading: "lazy" }) : h("span", {}, "?")),
     h("span", { class: "cmp-card__nome" }, p ? p.nome : "Nome do Pokémon"));
 }
-
 
 function cardComparacao(c, i) {
   const a = estado.pokemons.get(c.a);
@@ -122,7 +109,6 @@ function cardComparacao(c, i) {
       h("div", { class: "cmp-card__duelo" }, miniLado(a), h("span", { class: "cmp-card__vs" }, "vs"), miniLado(b))));
   return card;
 }
-
 
 function renderizarComparacoes() {
   const t = termo();
@@ -152,7 +138,6 @@ function renderizarComparacoes() {
   }
 }
 
-
 function atualizarBotao(seletor, chave, mostrar) {
   const botao = $(seletor);
   botao.hidden = !mostrar;
@@ -161,10 +146,8 @@ function atualizarBotao(seletor, chave, mostrar) {
   botao.onclick = () => { estado.expandido[chave] = !estado.expandido[chave]; renderizar(); };
 }
 
-
 /* ---------- Render geral e barra ---------- */
 const ferramentas = [];
-
 
 function renderizar() {
   renderizarFavoritos();
@@ -176,7 +159,6 @@ function renderizar() {
   }
   ferramentas.forEach((f) => f.marcar());
 }
-
 
 function montarBarra() {
   $("#icone-lupa").replaceWith(icone("lupa"));
@@ -204,7 +186,6 @@ function montarBarra() {
   ferramentas.push(...novas);
   $("#botoes").append(...novas.map((f) => f.el));
 }
-
 
 /* ---------- Início ---------- */
 if (sessao) {
