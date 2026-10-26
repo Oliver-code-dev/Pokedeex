@@ -1,213 +1,58 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Minha Coleção | Gugudex</title>
-
-    <link rel="stylesheet" href="style.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha coleção — GuguDex</title>
+  <link rel="icon" href="assets/img/logo-gengar.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/pokedex.css">
+  <link rel="stylesheet" href="css/colecao.css">
 </head>
-
 <body>
+  <header id="site-header"></header>
 
-    <main class="pagina">
 
-        
-        <header class="cabecalho">
+  <main class="container pokedex">
+    <h1 class="sr-only">Minha coleção</h1>
 
-            <a href="#" class="logo">GuguDex</a>
 
-            <nav class="menu">
-                <a href="#">Início</a>
-                <a href="#">Pokédex</a>
-                <a href="#">Comparador</a>
-                <a href="#" class="ativo">Minha coleção</a>
-                <a href="#">Sobre</a>
-            </nav>
+    <div class="barra-ferramentas">
+      <form class="campo-busca" role="search" id="form-busca">
+        <label class="campo__caixa">
+          <span class="sr-only">Buscar Pokémon e comparações</span>
+          <svg id="icone-lupa" aria-hidden="true" viewBox="0 0 24 24"></svg>
+          <input type="search" id="busca" placeholder="Buscar pokémon e comparações" autocomplete="off">
+        </label>
+      </form>
+      <div class="ferramentas__botoes" id="botoes"></div>
+    </div>
+    <p class="pokedex__resumo" id="resumo" role="status" aria-live="polite"></p>
 
-            <a href="#" class="perfil" aria-label="Minha conta">
-                <span>●</span>
-            </a>
 
-        </header>
+    <section class="col-secao" aria-labelledby="t-fav">
+      <div class="col-cabecalho"><h2 class="col-titulo" id="t-fav">Meus favoritos</h2><button class="link-destaque col-alternar" id="mais-fav" type="button" hidden>Mostrar Mais</button></div>
+      <div class="grade-pokemon" id="grade-fav"></div>
+      <p class="estado-vazio" id="vazio-fav" hidden></p>
+    </section>
 
-        
-        <section class="filtros">
 
-            <div class="campo-pesquisa">
-                <span class="icone-pesquisa" aria-hidden="true"></span>
+    <section class="col-secao" aria-labelledby="t-cmp-fav">
+      <div class="col-cabecalho"><h2 class="col-titulo" id="t-cmp-fav">Minhas comparações favoritas</h2><button class="link-destaque col-alternar" id="mais-cmp-fav" type="button" hidden>Mostrar Mais</button></div>
+      <div class="grade-comparacoes" id="grade-cmp-fav"></div>
+      <p class="estado-vazio" id="vazio-cmp-fav" hidden></p>
+    </section>
 
-                <input
-                    type="search"
-                    id="pesquisaPokemon"
-                    placeholder="Buscar pokémon e comparações"
-                    aria-label="Buscar Pokémon e comparações"
-                >
-            </div>
 
-            <button class="filtro" type="button" aria-label="Filtrar">
-                <span class="icone-filtro">▽</span>
-            </button>
+    <section class="col-secao" aria-labelledby="t-cmp">
+      <div class="col-cabecalho"><h2 class="col-titulo" id="t-cmp">Minhas comparações</h2><button class="link-destaque col-alternar" id="mais-cmp" type="button" hidden>Mostrar Mais</button></div>
+      <div class="grade-comparacoes" id="grade-cmp"></div>
+      <p class="estado-vazio" id="vazio-cmp" hidden></p>
+    </section>
+  </main>
 
-            <button class="filtro" type="button" aria-label="Filtrar por tipo">
-                <span class="icone-tipo">♧</span>
-            </button>
 
-            <button class="filtro" type="button" aria-label="Ordenar">
-                <span class="icone-ordem">↕</span>
-            </button>
-
-            <button class="filtro botao-tipos" type="button" aria-label="Tipos Pokémon">
-                🌎
-            </button>
-
-        </section>
-
-        
-        <section class="secao">
-
-            <div class="titulo-secao">
-                <h2>MEUS FAVORITOS</h2>
-                <a href="#">Mostrar Mais</a>
-            </div>
-
-            <div class="colecao-grid" id="listaFavoritos">
-
-                
-
-                <article class="card-vazio">
-                    <span class="numero-pokemon">#????</span>
-                    <button class="coracao" type="button"
-                        aria-label="Adicionar aos favoritos">♥</button>
-                    <div class="imagem-pokemon">?</div>
-                    <span class="nome-pokemon">Nome do Pokémon</span>
-                </article>
-
-                <article class="card-vazio">
-                    <span class="numero-pokemon">#????</span>
-                    <button class="coracao" type="button"
-                        aria-label="Adicionar aos favoritos">♥</button>
-                    <div class="imagem-pokemon">?</div>
-                    <span class="nome-pokemon">Nome do Pokémon</span>
-                </article>
-
-                <article class="card-vazio">
-                    <span class="numero-pokemon">#????</span>
-                    <button class="coracao" type="button"
-                        aria-label="Adicionar aos favoritos">♥</button>
-                    <div class="imagem-pokemon">?</div>
-                    <span class="nome-pokemon">Nome do Pokémon</span>
-                </article>
-
-                <article class="card-vazio">
-                    <span class="numero-pokemon">#????</span>
-                    <button class="coracao" type="button"
-                        aria-label="Adicionar aos favoritos">♥</button>
-                    <div class="imagem-pokemon">?</div>
-                    <span class="nome-pokemon">Nome do Pokémon</span>
-                </article>
-
-                <article class="card-vazio">
-                    <span class="numero-pokemon">#????</span>
-                    <button class="coracao" type="button"
-                        aria-label="Adicionar aos favoritos">♥</button>
-                    <div class="imagem-pokemon">?</div>
-                    <span class="nome-pokemon">Nome do Pokémon</span>
-                </article>
-
-            </div>
-
-        </section>
-
-        
-        <section class="secao comparacoes">
-
-            <div class="titulo-secao">
-                <h2>MINHAS COMPARAÇÕES FAVORITAS</h2>
-                <a href="#">Mostrar Mais</a>
-            </div>
-
-            <div class="comparacoes-grid" id="comparacoesFavoritas">
-
-                
-
-            </div>
-
-        </section>
-
-        
-        <section class="secao comparacoes">
-
-            <div class="titulo-secao">
-                <h2>MINHAS COMPARAÇÕES</h2>
-                <a href="#">Mostrar Mais</a>
-            </div>
-
-            <div class="comparacoes-grid" id="listaComparacoes">
-
-                
-
-            </div>
-
-        </section>
-
-        
-        <footer class="rodape">
-
-            <div class="newsletter">
-                <h3>FIQUE POR DENTRO DAS<br>NOVIDADES!</h3>
-
-                <p>
-                    Receba as novidades, atualizações e conteúdos
-                    exclusivos da GuguDex no seu e-mail.
-                </p>
-
-                <form class="form-newsletter">
-                    <input
-                        type="email"
-                        placeholder="Seu e-mail"
-                        aria-label="Seu e-mail"
-                        required
-                    >
-
-                    <button type="submit" aria-label="Inscrever-se">
-                        ✉
-                    </button>
-                </form>
-            </div>
-
-            <div class="footer-conteudo">
-
-                <a href="#" class="logo-footer">GuguDex</a>
-
-                <nav class="footer-links" aria-label="Links do rodapé">
-                    <a href="#">Política de Privacidade</a>
-                    <a href="#">Termos de Uso</a>
-                    <a href="#">Sobre</a>
-                </nav>
-
-                <div class="redes-sociais">
-                    <a href="#" aria-label="Instagram">◎</a>
-                    <a href="#" aria-label="Discord">♟</a>
-                    <a href="#" aria-label="X">𝕏</a>
-                </div>
-
-            </div>
-
-            <div class="footer-final">
-                <span>© 2026 GuguDex</span>
-                <span>Todos os direitos reservados.</span>
-            </div>
-
-        </footer>
-
-    </main>
-
+  <footer id="site-footer"></footer>
+  <script type="module" src="js/pages/colecao.js"></script>
 </body>
 </html>
