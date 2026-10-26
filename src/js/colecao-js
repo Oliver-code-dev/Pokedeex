@@ -1,426 +1,214 @@
-
-const API = "https://pokeapi.co/api/v2/pokemon/";
-const CHAVE_FAVORITOS = "gugudexFavoritos";
-const CHAVE_COMPARACOES = "gugudexComparacoes";
-const CHAVE_COMPARACOES_FAVORITAS = "gugudexComparacoesFavoritas";
-
-const pesquisa = document.getElementById("pesquisaPokemon");
-const listaFavoritos = document.getElementById("listaFavoritos");
-const comparacoesFavoritas = document.getElementById("comparacoesFavoritas");
-const listaComparacoes = document.getElementById("listaComparacoes");
-
-let favoritos = carregar(CHAVE_FAVORITOS);
-let comparacoes = carregar(CHAVE_COMPARACOES);
-let favoritasComparacoes = carregar(CHAVE_COMPARACOES_FAVORITAS);
-
-let resultadosPesquisa = [];
-let tiposDisponiveis = [];
-let tipoSelecionado = "";
-let ordem = "numero";
-let somenteFavoritos = true;
-let temporizador;
+// Minha coleção: Pokémon favoritos e comparações salvas (página restrita a usuários logados).
+import { montarLayout } from "../layout.js";
+import { exigirLogin } from "../auth.js";
+import { GERACOES, TIPOS_PT } from "../config.js";
+import { getVarios } from "../api.js";
+import { getFavoritos, alternarFavorito, getComparacoes, alternarComparacaoFavorita, removerComparacao } from "../storage.js";
+import { criarCardPokemon, criarCardBloqueado } from "../components/card.js";
+import { criarTipo } from "../components/tipo.js";
+import { criarFerramentaMenu } from "../components/ferramentas.js";
+import { icone } from "../icons.js";
+import { $, h, limpar, formatarNumero } from "../dom.js";
 
 
-function carregar(chave) {
-    try {
-        const dados = JSON.parse(localStorage.getItem(chave));
-        return Array.isArray(dados) ? dados : [];
-    } catch {
-        return [];
-    }
+const sessao = exigirLogin(); // sem login, redireciona para login.html?next=colecao.html
+montarLayout({ ativo: "colecao" });
+
+
+const LIMITE_FAV = 5;   // 1 linha de cards
+const LIMITE_CMP = 3;   // 1 linha de comparações
+
+
+const estado = {
+  busca: "", tipo: "", geracao: 0, ordem: "numero-asc",
+  expandido: { fav: false, cmpFav: false, cmp: false },
+  pokemons: new Map(),
+};
+
+
+const ORDENS = {
+  "numero-asc": { rotulo: "Número (crescente)", fn: (a, b) => a.id - b.id },
+  "numero-desc": { rotulo: "Número (decrescente)", fn: (a, b) => b.id - a.id },
+  "nome-asc": { rotulo: "Nome (A–Z)", fn: (a, b) => a.nome.localeCompare(b.nome) },
+  "nome-desc": { rotulo: "Nome (Z–A)", fn: (a, b) => b.nome.localeCompare(a.nome) },
+};
+
+
+/* ---------- Dados ---------- */
+async function carregarDados() {
+  const ids = new Set(getFavoritos(sessao.usuarioId));
+  getComparacoes(sessao.usuarioId).forEach((c) => { ids.add(c.a); ids.add(c.b); });
+  const faltando = [...ids].filter((id) => !estado.pokemons.has(id));
+  (await getVarios(faltando)).forEach((p) => p && estado.pokemons.set(p.id, p));
 }
 
 
-function salvar(chave, dados) {
-    localStorage.setItem(chave, JSON.stringify(dados));
-}
-
-function escapar(texto) {
-    return String(texto ?? "").replace(/[&<>"']/g, caractere => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-    })[caractere]);
-}
-
-function formatarNome(nome) {
-    return String(nome)
-        .replace(/-/g, " ")
-        .replace(/\b\w/g, letra => letra.toUpperCase());
-}
-
-function ehFavorito(id) {
-    return favoritos.some(pokemon => Number(pokemon.id) === Number(id));
-}
+const termo = () => estado.busca.trim().toLowerCase().replace(/^#/, "");
+const combina = (p, t) => !t || p.nome.toLowerCase().includes(t) || p.nomeJa.includes(t) || formatarNumero(p.id).slice(1).includes(t);
 
 
-async function buscarPokemon(identificador) {
-    const resposta = await fetch(
-        API + encodeURIComponent(String(identificador).toLowerCase().trim())
-    );
-
-    if (!resposta.ok) {
-        throw new Error("Pokémon não encontrado.");
-    }
-
-    const pokemon = await resposta.json();
-
-    return {
-        id: pokemon.id,
-        nome: pokemon.name,
-        imagem:
-            pokemon.sprites.other?.["official-artwork"]?.front_default ||
-            pokemon.sprites.front_default ||
-            "",
-        tipos: pokemon.types.map(item => item.type.name),
-        altura: pokemon.height,
-        peso: pokemon.weight
-    };
-}
-
-
-function criarCard(pokemon) {
-    const favorito = ehFavorito(pokemon.id);
-    const tipos = (pokemon.tipos || []).map(tipo =>
-        `<span class="tipo-pokemon">${escapar(formatarNome(tipo))}</span>`
-    ).join("");
-
-    return `
-        <article class="card-pokemon">
-            <span class="numero-pokemon">
-                #${String(pokemon.id).padStart(4, "0")}
-            </span>
-
-            <button
-                class="coracao ${favorito ? "favoritado" : ""}"
-                type="button"
-                data-favorito="${pokemon.id}"
-                aria-label="${favorito ? "Remover dos" : "Adicionar aos"} favoritos"
-                aria-pressed="${favorito}"
-            >♥</button>
-
-            <div class="imagem-pokemon">
-                ${pokemon.imagem
-                    ? `<img src="${escapar(pokemon.imagem)}"
-                        alt="${escapar(formatarNome(pokemon.nome))}"
-                        loading="lazy">`
-                    : "?"}
-            </div>
-
-            <span class="nome-pokemon">
-                ${escapar(formatarNome(pokemon.nome))}
-            </span>
-
-            <div class="tipos-pokemon">${tipos}</div>
-        </article>
-    `;
-}
-
-
-function renderizarPokemon(lista, elemento) {
-    if (!lista.length) {
-        elemento.innerHTML = `
-            <p class="mensagem-vazia">
-                Nenhum Pokémon por aqui ainda.
-            </p>
-        `;
-        return;
-    }
-
-    elemento.innerHTML = lista.map(criarCard).join("");
-}
-
+/* ---------- Seção: favoritos ---------- */
 function renderizarFavoritos() {
-    let lista = somenteFavoritos
-        ? [...favoritos]
-        : [...resultadosPesquisa];
+  const grade = limpar($("#grade-fav"));
+  const vazio = $("#vazio-fav");
+  const t = termo();
+  const filtrando = Boolean(t || estado.tipo || estado.geracao);
 
-    if (tipoSelecionado) {
-        lista = lista.filter(pokemon =>
-            (pokemon.tipos || []).includes(tipoSelecionado)
-        );
-    }
 
-    if (ordem === "numero") {
-        lista.sort((a, b) => a.id - b.id);
-    } else if (ordem === "numero-desc") {
-        lista.sort((a, b) => b.id - a.id);
-    } else if (ordem === "nome") {
-        lista.sort((a, b) => a.nome.localeCompare(b.nome));
-    }
+  const lista = getFavoritos(sessao.usuarioId)
+    .map((id) => estado.pokemons.get(id)).filter(Boolean)
+    .filter((p) => combina(p, t) && (!estado.tipo || p.tipos.includes(estado.tipo)) && (!estado.geracao || p.geracao === estado.geracao))
+    .sort(ORDENS[estado.ordem].fn);
 
-    renderizarPokemon(lista, listaFavoritos);
+
+  const visiveis = estado.expandido.fav ? lista : lista.slice(0, LIMITE_FAV);
+  visiveis.forEach((p, i) => grade.append(criarCardPokemon(p, {
+    mostrarFavorito: true, favoritado: true, revelar: false, atraso: i * 0.05,
+    aoFavoritar: (pk) => {
+      alternarFavorito(sessao.usuarioId, pk.id);
+      grade.querySelector(`[data-id="${pk.id}"]`)?.classList.add("card-pokemon--saindo");
+      setTimeout(renderizar, 300);
+    },
+  })));
+
+
+  // espaços vazios no estilo do design ("?") enquanto há poucos favoritos
+  if (!filtrando) for (let i = lista.length; i < LIMITE_FAV; i++) {
+    const vazioCard = criarCardBloqueado({ mostrarFavorito: true });
+    vazioCard.classList.add("card-pokemon--vazio");
+    grade.append(vazioCard);
+  }
+
+
+  vazio.hidden = lista.length > 0;
+  limpar(vazio);
+  if (!lista.length) {
+    if (filtrando) vazio.append("Nenhum favorito combina com a busca ou os filtros.");
+    else vazio.append("Você ainda não favoritou nenhum Pokémon. ", h("a", { class: "link-destaque", href: "pokedex.html" }, "Explore a Pokédex"), " e toque no coração!");
+  }
+  atualizarBotao("#mais-fav", "fav", lista.length > LIMITE_FAV);
 }
 
 
-function alternarFavorito(id) {
-    const numero = Number(id);
-    const existente = favoritos.some(pokemon => Number(pokemon.id) === numero);
-
-    if (existente) {
-        favoritos = favoritos.filter(pokemon => Number(pokemon.id) !== numero);
-    } else {
-        const pokemon = [...favoritos, ...resultadosPesquisa]
-            .find(item => Number(item.id) === numero);
-
-        if (!pokemon) return;
-
-        favoritos.push(pokemon);
-    }
-
-    salvar(CHAVE_FAVORITOS, favoritos);
-    renderizarFavoritos();
-}
-
-// Pesquisa por nome ou número na PokeAPI.
-async function pesquisarPokemon(termo) {
-    if (!termo.trim()) {
-        resultadosPesquisa = [];
-        somenteFavoritos = true;
-        renderizarFavoritos();
-        return;
-    }
-
-    somenteFavoritos = false;
-
-    listaFavoritos.innerHTML =
-        `<p class="mensagem-vazia">Buscando Pokémon...</p>`;
-
-    try {
-        let lista = [];
-
-        
-        try {
-            lista.push(await buscarPokemon(termo.trim()));
-        } catch {
-         
-        }
-
-        if (!lista.length) {
-            const resposta = await fetch(
-                "https://pokeapi.co/api/v2/pokemon?limit=100000"
-            );
-
-            if (!resposta.ok) throw new Error("Falha na pesquisa.");
-
-            const dados = await resposta.json();
-
-            const correspondentes = dados.results.filter(pokemon =>
-                pokemon.name.includes(termo.toLowerCase().trim())
-            ).slice(0, 30);
-
-            lista = await Promise.all(
-                correspondentes.map(pokemon => buscarPokemon(pokemon.name))
-            );
-        }
-
-        resultadosPesquisa = lista;
-        renderizarFavoritos();
-
-        if (!lista.length) {
-            listaFavoritos.innerHTML =
-                `<p class="mensagem-vazia">Nenhum Pokémon encontrado.</p>`;
-        }
-    } catch (erro) {
-        listaFavoritos.innerHTML =
-            `<p class="mensagem-vazia">
-                Não foi possível carregar os Pokémon. Verifique sua conexão.
-            </p>`;
-    }
-}
-
-document.addEventListener("click", evento => {
-    const botao = evento.target.closest("[data-favorito]");
-
-    if (botao) {
-        alternarFavorito(botao.dataset.favorito);
-    }
-});
-
-
-pesquisa.addEventListener("input", () => {
-    clearTimeout(temporizador);
-
-    temporizador = setTimeout(() => {
-        pesquisarPokemon(pesquisa.value);
-    }, 400);
-});
-
-
-const botoesFiltro = document.querySelectorAll(".filtros .filtro");
-
-botoesFiltro[0]?.addEventListener("click", () => {
-    somenteFavoritos = !somenteFavoritos;
-
-    if (!somenteFavoritos && !resultadosPesquisa.length) {
-        pesquisa.focus();
-        pesquisa.placeholder = "Digite o nome ou número de um Pokémon";
-        return;
-    }
-
-    renderizarFavoritos();
-});
-
-botoesFiltro[1]?.addEventListener("click", async () => {
-    if (!tiposDisponiveis.length) {
-        try {
-            const resposta = await fetch("https://pokeapi.co/api/v2/type");
-            const dados = await resposta.json();
-
-            tiposDisponiveis = dados.results
-                .map(tipo => tipo.name)
-                .filter(tipo => !["unknown", "shadow"].includes(tipo));
-        } catch {
-            alert("Não foi possível carregar os tipos.");
-            return;
-        }
-    }
-
-    const escolha = prompt(
-        "Digite um tipo Pokémon ou deixe vazio para remover o filtro:\n\n" +
-        tiposDisponiveis.join(", ")
-    );
-
-    if (escolha === null) return;
-
-    const tipo = escolha.trim().toLowerCase();
-
-    if (tipo && !tiposDisponiveis.includes(tipo)) {
-        alert("Tipo não encontrado.");
-        return;
-    }
-
-    tipoSelecionado = tipo;
-    renderizarFavoritos();
-});
-
-botoesFiltro[2]?.addEventListener("click", () => {
-    ordem = ordem === "numero"
-        ? "numero-desc"
-        : ordem === "numero-desc"
-            ? "nome"
-            : "numero";
-
-    renderizarFavoritos();
-});
-
-document.querySelector(".botao-tipos")?.addEventListener("click", () => {
-    tipoSelecionado = "";
-    renderizarFavoritos();
-});
-
-
-function renderizarComparacoes(lista, elemento, favoritas = false) {
-    if (!lista.length) {
-        elemento.innerHTML = `
-            <p class="mensagem-vazia">
-                ${favoritas
-                    ? "Você ainda não tem comparações favoritas."
-                    : "Suas comparações aparecerão aqui quando forem salvas."}
-            </p>
-        `;
-        return;
-    }
-
-    elemento.innerHTML = lista.map((comparacao, indice) => {
-        const primeiro = comparacao.pokemon1 || comparacao.primeiro;
-        const segundo = comparacao.pokemon2 || comparacao.segundo;
-
-        const nome1 = typeof primeiro === "object"
-            ? primeiro.nome || primeiro.name
-            : primeiro;
-
-        const nome2 = typeof segundo === "object"
-            ? segundo.nome || segundo.name
-            : segundo;
-
-        return `
-            <article class="card-comparacao">
-                <div class="comparacao-pokemon">
-                    <span>${escapar(formatarNome(nome1 || "Pokémon 1"))}</span>
-                    <strong>VS</strong>
-                    <span>${escapar(formatarNome(nome2 || "Pokémon 2"))}</span>
-                </div>
-
-                <button
-                    type="button"
-                    data-comparacao-favorita="${indice}"
-                    aria-pressed="${favoritas}"
-                    aria-label="${favoritas
-                        ? "Remover comparação dos favoritos"
-                        : "Favoritar comparação"}"
-                >${favoritas ? "★" : "☆"}</button>
-
-                ${favoritas ? `
-                    <button
-                        type="button"
-                        data-remover-comparacao="${indice}"
-                    >Remover</button>
-                ` : ""}
-            </article>
-        `;
-    }).join("");
+/* ---------- Seção: comparações ---------- */
+function miniLado(p) {
+  return h("div", { class: "cmp-card__lado" },
+    h("div", { class: "cmp-mini" }, p ? h("img", { src: p.imagem, alt: p.nome, loading: "lazy" }) : h("span", {}, "?")),
+    h("span", { class: "cmp-card__nome" }, p ? p.nome : "Nome do Pokémon"));
 }
 
 
-document.addEventListener("click", evento => {
-    const botao = evento.target.closest("[data-comparacao-favorita]");
-    if (!botao) return;
-
-    const indice = Number(botao.dataset.comparacaoFavorita);
-    const lista = botao.closest("#comparacoesFavoritas")
-        ? favoritasComparacoes
-        : comparacoes;
-
-    const comparacao = lista[indice];
-    if (!comparacao) return;
-
-    if (lista === favoritasComparacoes) {
-        favoritasComparacoes.splice(indice, 1);
-    } else {
-        const existe = favoritasComparacoes.some(item =>
-            JSON.stringify(item) === JSON.stringify(comparacao)
-        );
-
-        if (!existe) favoritasComparacoes.push(comparacao);
-    }
-
-    salvar(CHAVE_COMPARACOES_FAVORITAS, favoritasComparacoes);
-    renderizarTudo();
-});
-
-
-document.addEventListener("click", evento => {
-    const botao = evento.target.closest("[data-remover-comparacao]");
-    if (!botao) return;
-
-    favoritasComparacoes.splice(
-        Number(botao.dataset.removerComparacao), 1
-    );
-
-    salvar(CHAVE_COMPARACOES_FAVORITAS, favoritasComparacoes);
-    renderizarTudo();
-});
-
-function renderizarTudo() {
-    renderizarFavoritos();
-
-    renderizarComparacoes(
-        favoritasComparacoes,
-        comparacoesFavoritas,
-        true
-    );
-
-    renderizarComparacoes(comparacoes, listaComparacoes);
+function cardComparacao(c, i) {
+  const a = estado.pokemons.get(c.a);
+  const b = estado.pokemons.get(c.b);
+  const card = h("article", { class: "cmp-card", style: `animation-delay:${i * 0.05}s` },
+    h("span", { class: "cmp-card__titulo", title: c.titulo }, c.titulo),
+    h("div", { class: "cmp-card__acoes" },
+      h("button", {
+        class: "btn-favorito", type: "button", "aria-pressed": String(c.favorita),
+        "aria-label": c.favorita ? "Remover dos favoritos" : "Favoritar comparação",
+        onClick: () => { alternarComparacaoFavorita(sessao.usuarioId, c.id); renderizar(); },
+      }, icone("coracao")),
+      h("button", {
+        class: "cmp-card__remover", type: "button", "aria-label": `Excluir comparação ${c.titulo}`,
+        onClick: () => {
+          if (!confirm(`Excluir a comparação "${c.titulo}"?`)) return;
+          removerComparacao(sessao.usuarioId, c.id);
+          card.classList.add("cmp-card--saindo");
+          setTimeout(renderizar, 300);
+        },
+      }, icone("lixeira"))),
+    h("a", { class: "cmp-card__link", href: `comparador.html?a=${c.a}&b=${c.b}`, "aria-label": `Abrir comparação ${c.titulo}` },
+      h("div", { class: "cmp-card__duelo" }, miniLado(a), h("span", { class: "cmp-card__vs" }, "vs"), miniLado(b))));
+  return card;
 }
 
 
-document.querySelector(".form-newsletter")?.addEventListener("submit", evento => {
-    evento.preventDefault();
-    alert("Formulário validado! O envio real exige integrar um serviço de e-mail.");
-    evento.target.reset();
-});
+function renderizarComparacoes() {
+  const t = termo();
+  const todas = getComparacoes(sessao.usuarioId).filter((c) => {
+    const a = estado.pokemons.get(c.a), b = estado.pokemons.get(c.b);
+    return !t || c.titulo.toLowerCase().includes(t) || (a && combina(a, t)) || (b && combina(b, t));
+  });
+  const grupos = [
+    { chave: "cmpFav", grade: "#grade-cmp-fav", vazio: "#vazio-cmp-fav", botao: "#mais-cmp-fav", itens: todas.filter((c) => c.favorita),
+      msg: "Nenhuma comparação favorita. Toque no coração de uma comparação para ela aparecer aqui." },
+    { chave: "cmp", grade: "#grade-cmp", vazio: "#vazio-cmp", botao: "#mais-cmp", itens: todas.filter((c) => !c.favorita),
+      msg: null },
+  ];
+  for (const g of grupos) {
+    const grade = limpar($(g.grade));
+    const vazio = $(g.vazio);
+    const itens = estado.expandido[g.chave] ? g.itens : g.itens.slice(0, LIMITE_CMP);
+    itens.forEach((c, i) => grade.append(cardComparacao(c, i)));
+    vazio.hidden = g.itens.length > 0;
+    limpar(vazio);
+    if (!g.itens.length) {
+      if (t) vazio.append("Nenhuma comparação combina com a busca.");
+      else if (g.msg) vazio.append(g.msg);
+      else vazio.append("Você ainda não salvou comparações. ", h("a", { class: "link-destaque", href: "comparador.html" }, "Abra o Comparador"), " para criar a primeira!");
+    }
+    atualizarBotao(g.botao, g.chave, g.itens.length > LIMITE_CMP);
+  }
+}
 
-renderizarTudo();
+
+function atualizarBotao(seletor, chave, mostrar) {
+  const botao = $(seletor);
+  botao.hidden = !mostrar;
+  botao.textContent = estado.expandido[chave] ? "Mostrar Menos" : "Mostrar Mais";
+  botao.setAttribute("aria-expanded", String(estado.expandido[chave]));
+  botao.onclick = () => { estado.expandido[chave] = !estado.expandido[chave]; renderizar(); };
+}
+
+
+/* ---------- Render geral e barra ---------- */
+const ferramentas = [];
+
+
+function renderizar() {
+  renderizarFavoritos();
+  renderizarComparacoes();
+  const resumo = limpar($("#resumo"));
+  if (estado.tipo || estado.geracao || estado.ordem !== "numero-asc") {
+    resumo.append("Tipo, região e ordem valem para os Pokémon favoritos.",
+      h("button", { type: "button", onClick: () => { Object.assign(estado, { tipo: "", geracao: 0, ordem: "numero-asc" }); renderizar(); } }, "Limpar filtros"));
+  }
+  ferramentas.forEach((f) => f.marcar());
+}
+
+
+function montarBarra() {
+  $("#icone-lupa").replaceWith(icone("lupa"));
+  $("#form-busca").addEventListener("submit", (e) => e.preventDefault());
+  $("#busca").addEventListener("input", (e) => { estado.busca = e.target.value; renderizar(); });
+
+
+  const novas = [
+    criarFerramentaMenu({
+      icone: "filtro", rotulo: "Filtrar por tipo", titulo: "Tipo", padrao: "", aoMudar: renderizar,
+      opcoes: () => [{ valor: "", rotulo: "Todos os tipos" }, ...Object.keys(TIPOS_PT).map((t) => ({ valor: t, rotulo: TIPOS_PT[t], icone: criarTipo(t) }))],
+      atual: () => estado.tipo, aoEscolher: (v) => { estado.tipo = v; },
+    }),
+    criarFerramentaMenu({
+      icone: "globo", rotulo: "Filtrar por região", titulo: "Região", padrao: 0, aoMudar: renderizar,
+      opcoes: () => [{ valor: 0, rotulo: "Todas as regiões" }, ...Object.entries(GERACOES).map(([n, g]) => ({ valor: Number(n), rotulo: `${n}ª — ${g.regiao}` }))],
+      atual: () => estado.geracao, aoEscolher: (v) => { estado.geracao = v; },
+    }),
+    criarFerramentaMenu({
+      icone: "ordenar", rotulo: "Ordenar favoritos", titulo: "Ordenar por", padrao: "numero-asc", aoMudar: renderizar,
+      opcoes: () => Object.entries(ORDENS).map(([valor, o]) => ({ valor, rotulo: o.rotulo })),
+      atual: () => estado.ordem, aoEscolher: (v) => { estado.ordem = v; },
+    }),
+  ];
+  ferramentas.push(...novas);
+  $("#botoes").append(...novas.map((f) => f.el));
+}
+
+
+/* ---------- Início ---------- */
+if (sessao) {
+  montarBarra();
+  await carregarDados();
+  renderizar();
+}
