@@ -1,0 +1,86 @@
+/* Comparador — complementa o global.css */
+
+
+.cmp-arena { background: var(--cor-fundo); padding-block: var(--espaco-5) var(--espaco-4); }
+.cmp-lados { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 4vw, 3.5rem); max-width: 1100px; margin-inline: auto; }
+.cmp-lado { display: flex; flex-direction: column; gap: 1rem; min-width: 0; }
+
+
+.cmp-moldura {
+  position: relative; aspect-ratio: 1; display: grid; place-items: center; overflow: hidden;
+  background: var(--cor-card); border: 8px solid rgba(255, 255, 255, 0.4); outline: 6px solid rgba(255, 255, 255, 0.15);
+  border-radius: 38% 38% 0 0 / 24% 24% 0 0; box-shadow: var(--sombra-suave);
+}
+.cmp-moldura__num { position: absolute; top: 1.2rem; left: 12%; z-index: 3; font-size: clamp(1.6rem, 4.5vw, 3.2rem); font-weight: 800; line-height: 1; text-shadow: 3px 3px 0 #000; }
+.cmp-moldura__nome { position: absolute; top: calc(1.2rem + clamp(2rem, 5vw, 3.6rem)); left: 12%; z-index: 3; font-weight: 800; text-transform: uppercase; text-shadow: 2px 2px 0 #000; font-size: clamp(0.9rem, 1.8vw, 1.3rem); }
+.cmp-moldura__jp {
+  position: absolute; left: 0; right: 0; bottom: 4%; text-align: center; white-space: nowrap; overflow: hidden; z-index: 1;
+  font-size: clamp(3rem, 9vw, 7.5rem); font-weight: 800; line-height: 1; color: rgba(130, 165, 205, 0.45);
+}
+.cmp-moldura__arte { position: relative; z-index: 2; width: 82%; height: auto; aspect-ratio: 1; object-fit: contain; filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5)); animation: revelar 0.6s ease both; }
+.cmp-moldura__vazio { font-family: Arial, sans-serif; font-size: clamp(6rem, 16vw, 12rem); line-height: 1; color: rgba(255, 255, 255, 0.85); }
+.cmp-moldura--vencedor { outline-color: #ffd54a; animation: brilhar 1.6s ease-in-out infinite alternate; }
+@keyframes brilhar { from { box-shadow: 0 0 0 rgba(255, 213, 74, 0); } to { box-shadow: 0 0 34px rgba(255, 213, 74, 0.55); } }
+
+
+.cmp-vs {
+  position: absolute; left: 50%; top: 30%; transform: translate(-50%, -50%); z-index: 5; pointer-events: none;
+  font-family: "Times New Roman", serif; font-size: clamp(3.5rem, 11vw, 9rem); line-height: 1; color: #fff;
+  -webkit-text-stroke: 2px #000; text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.5); animation: pulso-cmp 1.8s ease-in-out infinite;
+}
+@keyframes pulso-cmp { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.1); } }
+
+
+/* botão de trocar de lado: redondo, entre os dois Pokémon */
+.cmp-trocar {
+  position: absolute; left: 50%; top: 52%; z-index: 6; width: 56px; height: 56px; display: grid; place-items: center; padding: 0;
+  transform: translate(-50%, -50%); background: #fff; color: #000; border: 3px solid #000; border-radius: 50%;
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.4); cursor: pointer; transition: transform 0.3s ease, background var(--transicao);
+}
+.cmp-trocar[hidden] { display: none; }
+.cmp-trocar:hover { background: #ffd54a; transform: translate(-50%, -50%) rotate(180deg); }
+.cmp-trocar:active { transform: translate(-50%, -50%) rotate(180deg) scale(0.92); }
+
+
+/* seletor com seta */
+.cmp-select-caixa { position: relative; }
+.cmp-select-caixa select {
+  appearance: none; -webkit-appearance: none; cursor: pointer; padding-right: 3rem;
+  font-size: clamp(1.1rem, 2.6vw, 1.9rem); text-align: center; text-align-last: center;
+}
+.cmp-select-caixa::after {
+  content: ""; position: absolute; right: 1.1rem; top: 50%; width: 12px; height: 12px; pointer-events: none;
+  border-right: 4px solid #fff; border-bottom: 4px solid #fff; transform: translateY(-75%) rotate(45deg);
+}
+.cmp-select-caixa select option { color: #000; background: #fff; font-size: 1rem; text-transform: none; }
+
+
+/* ---------- Resultado ---------- */
+.cmp-resultado { background: var(--cor-fundo-medio); padding-block: var(--espaco-5); }
+.cmp-resultado__titulo { text-align: center; font-size: clamp(1.6rem, 3.4vw, 2.6rem); font-weight: 800; text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.4); }
+.cmp-resumo:empty { display: none; }
+.cmp-resumo { text-align: center; margin-block: 0.6rem 1.6rem; font-size: 1.1rem; color: var(--cor-texto-suave); }
+.cmp-paineis { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(1rem, 4vw, 3.5rem); max-width: 1100px; margin-inline: auto; }
+.cmp-painel { background: var(--cor-card); border: 4px solid rgba(255, 255, 255, 0.2); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); padding: 1.1rem 1.3rem; min-width: 0; }
+.cmp-painel .stat { grid-template-columns: minmax(70px, 120px) 1fr 2.6rem; }
+.cmp-painel .stat__valor { font-size: 1.1rem; }
+
+
+.cmp-acoes { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-end; gap: 1rem; margin-top: var(--espaco-4); }
+.cmp-acoes .campo { min-width: min(100%, 320px); }
+.cmp-acoes .campo__caixa { padding: 0.65rem 0.9rem; }
+.cmp-acoes__aviso { width: 100%; text-align: center; color: var(--cor-texto-suave); }
+.cmp-acoes__aviso a { color: #fff; text-decoration: underline; }
+
+
+@media (max-width: 700px) {
+  .cmp-paineis { grid-template-columns: 1fr; }
+  .cmp-moldura { border-width: 5px; outline-width: 3px; }
+  .cmp-moldura__nome { display: none; }
+  .cmp-vs { top: 22%; font-size: 3rem; }
+  .cmp-trocar { width: 44px; height: 44px; top: 48%; }
+  .cmp-trocar svg { width: 22px; height: 22px; }
+  .cmp-select-caixa select { font-size: 0.85rem; padding-inline: 0.4rem 1.8rem; }
+  .cmp-select-caixa::after { right: 0.7rem; width: 9px; height: 9px; border-width: 3px; }
+  .cmp-moldura__num { left: 8%; top: 0.8rem; font-size: 1.3rem; }
+}
