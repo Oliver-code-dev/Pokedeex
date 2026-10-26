@@ -1,0 +1,104 @@
+/* Login e Registro — medidas tiradas dos SVGs (tela de 1920×1080).
+   --u = 1 pixel do design. O painel fica em left:50u / top:90u e tudo dentro dele
+   é posicionado com as coordenadas do painel (--x, --y, --w, --h em unidades do design). */
+
+.auth {
+  --u: min(100vw / 1920, 100vh / 1080);
+  position: relative; min-height: 100vh; overflow: hidden; background: #1a3d63; isolation: isolate;
+  font-family: var(--fonte-texto); color: #fff;
+}
+.auth__fundo { position: fixed; inset: 0; z-index: -2; background: center / cover no-repeat; }
+.auth--login .auth__fundo { background-image: url("../assets/fundos/login.jpg"); }
+.auth--registro .auth__fundo {
+  background-image: url("../assets/fundos/registro.jpg");
+  inset: calc(-5 * var(--u)); /* desfoque do SVG: 2,5 px na tela de 1920 */
+  filter: blur(calc(2.5 * var(--u)));
+}
+/* degradê do SVG: escuro à esquerda, transparente à direita (50%) */
+.auth::after { content: ""; position: fixed; inset: 0; z-index: -1; background: linear-gradient(to left, rgba(217, 217, 217, 0), rgba(0, 0, 0, 0.5)); pointer-events: none; }
+
+.auth__painel {
+  position: absolute; left: calc(50 * var(--u)); top: calc(90 * var(--u));
+  width: calc(650 * var(--u)); height: calc(900 * var(--u));
+  background: #1a3d63; border: calc(5 * var(--u)) solid #000; box-sizing: border-box;
+  box-shadow: calc(8 * var(--u)) calc(8 * var(--u)) calc(8 * var(--u)) rgba(0, 0, 0, 0.4);
+}
+.auth form { display: contents; }
+
+/* posicionamento por coordenadas do painel (já descontada a borda de 5u) */
+.p { position: absolute; left: calc((var(--x) - 5) * var(--u)); top: calc((var(--y) - 5) * var(--u)); }
+.pw { width: calc(var(--w) * var(--u)); height: calc(var(--h) * var(--u)); }
+.t { font-size: calc(var(--s, 20) * var(--u)); line-height: 1.364; font-weight: 400; white-space: nowrap; margin: 0; }
+.t--centro { left: 0; width: calc(640 * var(--u)); text-align: center; }
+.t--sombra { text-shadow: calc(4 * var(--u)) calc(4 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.4); }
+.auth__titulo--contorno {
+  --c: calc(1 * var(--u));
+  text-shadow: var(--c) 0 #000, calc(-1 * var(--c)) 0 #000, 0 var(--c) #000, 0 calc(-1 * var(--c)) #000,
+    var(--c) var(--c) #000, calc(-1 * var(--c)) calc(-1 * var(--c)) #000, var(--c) calc(-1 * var(--c)) #000, calc(-1 * var(--c)) var(--c) #000,
+    calc(8 * var(--u)) calc(8 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.4);
+}
+
+/* campos de texto: 550×80, borda de 4u, sombra 8u */
+.auth__campo {
+  box-sizing: border-box; background: #fff; border: calc(4 * var(--u)) solid #000;
+  box-shadow: calc(8 * var(--u)) calc(8 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.4);
+}
+.auth__campo > img { position: absolute; left: calc((var(--ix) - 4) * var(--u)); top: calc((var(--iy) - 4) * var(--u)); width: calc(var(--is) * var(--u)); height: calc(var(--is) * var(--u)); pointer-events: none; }
+.auth__campo input {
+  position: absolute; inset: 0; width: 100%; height: 100%; box-sizing: border-box; border: 0; outline: 0; background: transparent;
+  font: inherit; font-size: calc(20 * var(--u)); color: #000;
+  padding: calc(var(--pt, 2.5) * var(--u)) calc(8 * var(--u)) 0 calc((var(--pl) - 4) * var(--u));
+}
+.auth__campo input::placeholder { color: rgba(0, 0, 0, 0.6); opacity: 1; }
+.auth__campo:focus-within { outline: calc(3 * var(--u)) solid #ffd54a; outline-offset: calc(3 * var(--u)); }
+.auth__campo.campo--erro { border-color: #c0392b; }
+.auth .campo__erro {
+  position: absolute; right: calc(10 * var(--u)); top: calc(4 * var(--u)); min-height: 0; margin: 0;
+  font-size: calc(15 * var(--u)); font-weight: 700; color: #c0392b; background: #fff; line-height: 1.2;
+}
+.auth .campo__erro:empty { display: none; }
+
+/* caixinha de marcar */
+.auth__check { position: absolute; left: calc((var(--x) - 5) * var(--u)); top: calc((var(--y) - 5) * var(--u)); display: flex; align-items: flex-start; cursor: pointer; }
+.auth__check input {
+  appearance: none; -webkit-appearance: none; margin: 0; flex: none; box-sizing: border-box; background: #fff no-repeat center / 70%;
+  width: calc(var(--cb) * var(--u)); height: calc(var(--cb) * var(--u)); border: calc(3 * var(--u)) solid #000;
+}
+.auth__check input:checked { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M4 12.5l5 5L20 6.5' fill='none' stroke='%23000' stroke-width='3.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.auth__check input:focus-visible { outline: calc(3 * var(--u)) solid #ffd54a; outline-offset: calc(2 * var(--u)); }
+.auth__check--sombra input { box-shadow: calc(4 * var(--u)) calc(4 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.4); }
+.auth__check span { font-size: calc(20 * var(--u)); line-height: 1.364; white-space: nowrap; margin-left: calc(var(--tx) * var(--u)); margin-top: calc(var(--ty) * var(--u)); }
+.auth__check--termos span { line-height: calc(29 * var(--u)); }
+.auth__erro-termos { position: absolute; margin: 0; font-size: calc(15 * var(--u)); font-weight: 700; color: #ff9d94; }
+.auth__erro-termos:empty { display: none; }
+
+.auth__link { background: none; border: 0; padding: 0; color: inherit; font-family: inherit; cursor: pointer; }
+.auth__rodape a { color: inherit; }
+
+/* botão principal: 314×62, borda 4u */
+.auth__enviar {
+  box-sizing: border-box; background: #fff; color: #000; border: calc(4 * var(--u)) solid #000; border-radius: 0; padding: 0; cursor: pointer;
+  box-shadow: calc(8 * var(--u)) calc(8 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.4);
+  font-family: Arial, Helvetica, sans-serif; font-size: calc(19.5 * var(--u)); text-transform: uppercase;
+}
+.auth__enviar:hover:not(:disabled) { background: #f1f1f1; }
+.auth__enviar:disabled { opacity: 0.7; cursor: wait; }
+
+/* botões sociais: 70×70 */
+.auth__social {
+  box-sizing: border-box; background: #fff; border: calc(4 * var(--u)) solid #000; border-radius: 0; padding: 0; cursor: pointer;
+  box-shadow: calc(8 * var(--u)) calc(8 * var(--u)) calc(4 * var(--u)) rgba(0, 0, 0, 0.4);
+}
+.auth__social img { position: absolute; left: calc((var(--ix) - 4) * var(--u)); top: calc((var(--iy) - 4) * var(--u)); width: calc(var(--iw) * var(--u)); height: calc(var(--ih) * var(--u)); }
+
+.auth__erro-geral {
+  position: absolute; left: 0; width: calc(640 * var(--u)); top: calc(231 * var(--u)); margin: 0; text-align: center;
+  font-size: calc(18 * var(--u)); font-weight: 700; color: #ffb4ab;
+}
+.auth__erro-geral:empty { display: none; }
+
+/* celular: o painel ocupa a largura toda */
+@media (max-width: 760px) {
+  .auth { --u: calc(100vw / 650); min-height: calc(900 * var(--u)); }
+  .auth__painel { left: 0; top: 0; }
+}
