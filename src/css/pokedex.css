@@ -1,0 +1,45 @@
+/* Pokédex — complementa o global.css */
+
+.pokedex { padding-block: var(--espaco-4) var(--espaco-6); }
+
+/* ---------- Barra de ferramentas ---------- */
+.barra-ferramentas { position: relative; z-index: 30; display: flex; align-items: center; gap: 0.6rem; margin-bottom: var(--espaco-4); }
+.barra-ferramentas .campo-busca { flex: 1; max-width: 640px; }
+.barra-ferramentas .campo__caixa { padding: 0.45rem 0.8rem; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55); }
+.barra-ferramentas .campo__caixa svg { fill: none; stroke: currentColor; }
+.barra-ferramentas input { font-size: 1.05rem; }
+.ferramentas__botoes { display: flex; gap: 0.5rem; }
+
+.ferramenta { position: relative; }
+.ferramenta .btn-icone[aria-expanded="true"], .btn-icone.ativo { background: #ffd54a; }
+.ferramenta__ponto { position: absolute; top: -5px; right: -5px; width: 12px; height: 12px; border-radius: 50%; background: var(--cor-destaque); border: 2px solid #fff; }
+.menu-opcoes {
+  position: absolute; z-index: 20; top: calc(100% + 8px); left: 0; min-width: 190px; max-height: 340px; overflow-y: auto;
+  background: var(--cor-fundo-escuro); border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 0.5rem;
+  box-shadow: var(--sombra-suave); padding: 0.4rem; animation: aparecer-baixo 0.16s ease;
+}
+.menu-opcoes__titulo { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--cor-texto-suave); padding: 0.3rem 0.6rem; }
+.menu-opcoes__item {
+  display: flex; align-items: center; gap: 0.6rem; width: 100%; text-align: left; background: none; border: 0;
+  padding: 0.5rem 0.6rem; border-radius: 0.35rem; font-weight: 600;
+}
+.menu-opcoes__item:hover { background: rgba(255, 255, 255, 0.12); }
+.menu-opcoes__item[aria-checked="true"] { background: rgba(0, 163, 255, 0.25); font-weight: 800; }
+.menu-opcoes__item .tipo { width: 22px; height: 22px; }
+.menu-opcoes__item .tipo--texto { width: 22px; height: 22px; padding: 0; font-size: 0; }
+.ferramenta:nth-child(n + 3) .menu-opcoes { left: auto; right: 0; }
+
+.pokedex__resumo { color: var(--cor-texto-suave); margin-bottom: var(--espaco-3); min-height: 1.5em; }
+.pokedex__resumo button { background: none; border: 0; padding: 0; color: var(--cor-destaque); text-decoration: underline; margin-left: 0.5rem; }
+
+/* ---------- Seções por geração ---------- */
+.geracao { margin-bottom: var(--espaco-5); }
+.geracao__cabecalho { display: flex; justify-content: space-between; align-items: baseline; padding-inline: clamp(0rem, 2vw, 2.4rem); margin-bottom: var(--espaco-3); }
+.geracao__titulo { font-size: clamp(1.4rem, 2.4vw, 2rem); font-weight: 400; }
+.geracao__alternar { background: none; border: 0; padding: 0; }
+
+@media (max-width: 560px) {
+  .barra-ferramentas { flex-wrap: wrap; }
+  .barra-ferramentas .campo-busca { flex: 1 1 100%; max-width: none; }
+  .geracao__cabecalho { padding-inline: 0; }
+}
