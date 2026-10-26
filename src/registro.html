@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Registro — GuguDex</title>
+  <link rel="icon" href="assets/img/logo-gengar.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+<body>
+  <main class="auth auth--registro">
+    <div class="auth__fundo" aria-hidden="true"></div>
+
+    <section class="auth__painel" aria-labelledby="titulo">
+      <h1 class="p t t--centro auth__titulo--contorno" id="titulo" style="--y:52.4;--s:87">Registro</h1>
+
+      <form id="form-registro" novalidate>
+        <p class="auth__erro-geral" id="erro-geral" role="alert" style="top:calc(160 * var(--u))"></p>
+
+        <div class="campo auth__campo p pw" style="--x:53;--y:201;--w:550;--h:80;--ix:20;--iy:13;--is:55;--pl:80">
+          <img src="assets/img/icone-usuario.png" alt="">
+          <label class="sr-only" for="nome">Nome de usuário</label>
+          <input id="nome" type="text" name="nome" placeholder="Nome de usuário" autocomplete="username" required aria-describedby="erro-nome">
+          <span class="campo__erro" id="erro-nome"></span>
+        </div>
+
+        <div class="campo auth__campo p pw" style="--x:53;--y:291;--w:550;--h:80;--ix:26;--iy:23;--is:45;--pl:75;--pt:13.4">
+          <img src="assets/img/icone-email.png" alt="">
+          <label class="sr-only" for="email">E-mail</label>
+          <input id="email" type="email" name="email" placeholder="E-mail" autocomplete="email" required aria-describedby="erro-email">
+          <span class="campo__erro" id="erro-email"></span>
+        </div>
+
+        <div class="campo auth__campo p pw" style="--x:53;--y:381;--w:550;--h:80;--ix:26;--iy:19;--is:42;--pl:75">
+          <img src="assets/img/icone-cadeado.png" alt="">
+          <label class="sr-only" for="senha">Senha</label>
+          <input id="senha" type="password" name="senha" placeholder="Senha" autocomplete="new-password" required aria-describedby="erro-senha">
+          <span class="campo__erro" id="erro-senha"></span>
+        </div>
+
+        <div class="campo auth__campo p pw" style="--x:53;--y:471;--w:550;--h:80;--ix:26;--iy:19;--is:42;--pl:78">
+          <img src="assets/img/icone-cadeado.png" alt="">
+          <label class="sr-only" for="confirmacao">Confirme sua senha</label>
+          <input id="confirmacao" type="password" name="confirmacao" placeholder="Confirme sua senha" autocomplete="new-password" required aria-describedby="erro-confirmacao">
+          <span class="campo__erro" id="erro-confirmacao"></span>
+        </div>
+
+        <label class="auth__check auth__check--termos" style="--x:53;--y:561;--cb:31;--tx:10.3;--ty:1.7">
+          <input type="checkbox" name="termos" aria-describedby="erro-termos"><span>Eu li e concordo com os Termos de Uso e<br>a Política de Privacidade</span>
+        </label>
+        <span class="auth__erro-termos p" id="erro-termos" style="--x:345;--y:594"></span>
+
+        <button class="auth__enviar p pw" type="submit" style="--x:192;--y:630;--w:314;--h:62">Criar conta</button>
+      </form>
+
+      <p class="p t" style="--x:254.7;--y:702.6;--s:20">Ou registre-se com:</p>
+      <div id="sociais">
+        <button class="auth__social p pw" type="button" data-rede="Facebook" aria-label="Registrar com Facebook" style="--x:142;--y:749;--w:70;--h:70"><img src="assets/img/social-facebook.png" alt="" style="--ix:5;--iy:6;--iw:60;--ih:57"></button>
+        <button class="auth__social p pw" type="button" data-rede="Google" aria-label="Registrar com Google" style="--x:312;--y:749;--w:70;--h:70"><img src="assets/img/social-google.png" alt="" style="--ix:-2;--iy:1;--iw:68;--ih:67"></button>
+        <button class="auth__social p pw" type="button" data-rede="Discord" aria-label="Registrar com Discord" style="--x:482;--y:749;--w:70;--h:70"><img src="assets/img/social-discord.png" alt="" style="--ix:1;--iy:5;--iw:66;--ih:60"></button>
+      </div>
+
+      <p class="auth__rodape p t t--sombra" style="--x:207.2;--y:837.6">Já tem uma conta? <a href="login.html">Faça Login</a></p>
+    </section>
+  </main>
+  <script type="module" src="js/pages/registro.js"></script>
+</body>
+</html>
