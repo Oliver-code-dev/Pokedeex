@@ -1,1 +1,215 @@
+// Minha coleção: Pokémon favoritos e comparações salvas (página restrita a usuários logados).
+import { montarLayout } from "../layout.js";
+import { exigirLogin } from "../auth.js";
+import { GERACOES, TIPOS_PT } from "../config.js";
+import { getVarios } from "../api.js";
+import { getFavoritos, alternarFavorito, getComparacoes, alternarComparacaoFavorita, removerComparacao } from "../storage.js";
+import { criarCardPokemon, criarCardBloqueado } from "../components/card.js";
+import { criarTipo } from "../components/tipo.js";
+import { criarFerramentaMenu } from "../components/ferramentas.js";
+import { icone } from "../icons.js";
+import { $, h, limpar, formatarNumero } from "../dom.js";
+
+
+const sessao = exigirLogin(); // sem login, redireciona para login.html?next=colecao.html
+montarLayout({ ativo: "colecao" });
+
+
+const LIMITE_FAV = 5;   // 1 linha de cards
+const LIMITE_CMP = 3;   // 1 linha de comparações
+
+
+const estado = {
+  busca: "", tipo: "", geracao: 0, ordem: "numero-asc",
+  expandido: { fav: false, cmpFav: false, cmp: false },
+  pokemons: new Map(),
+};
+
+
+const ORDENS = {
+  "numero-asc": { rotulo: "Número (crescente)", fn: (a, b) => a.id - b.id },
+  "numero-desc": { rotulo: "Número (decrescente)", fn: (a, b) => b.id - a.id },
+  "nome-asc": { rotulo: "Nome (A–Z)", fn: (a, b) => a.nome.localeCompare(b.nome) },
+  "nome-desc": { rotulo: "Nome (Z–A)", fn: (a, b) => b.nome.localeCompare(a.nome) },
+};
+
+
+/* ---------- Dados ---------- */
+async function carregarDados() {
+  const ids = new Set(getFavoritos(sessao.usuarioId));
+  getComparacoes(sessao.usuarioId).forEach((c) => { ids.add(c.a); ids.add(c.b); });
+  const faltando = [...ids].filter((id) => !estado.pokemons.has(id));
+  (await getVarios(faltando)).forEach((p) => p && estado.pokemons.set(p.id, p));
+}
+
+
+const termo = () => estado.busca.trim().toLowerCase().replace(/^#/, "");
+const combina = (p, t) => !t || p.nome.toLowerCase().includes(t) || p.nomeJa.includes(t) || formatarNumero(p.id).slice(1).includes(t);
+
+
+/* ---------- Seção: favoritos ---------- */
+function renderizarFavoritos() {
+  const grade = limpar($("#grade-fav"));
+  const vazio = $("#vazio-fav");
+  const t = termo();
+  const filtrando = Boolean(t || estado.tipo || estado.geracao);
+
+
+  const lista = getFavoritos(sessao.usuarioId)
+    .map((id) => estado.pokemons.get(id)).filter(Boolean)
+    .filter((p) => combina(p, t) && (!estado.tipo || p.tipos.includes(estado.tipo)) && (!estado.geracao || p.geracao === estado.geracao))
+    .sort(ORDENS[estado.ordem].fn);
+
+
+  const visiveis = estado.expandido.fav ? lista : lista.slice(0, LIMITE_FAV);
+  visiveis.forEach((p, i) => grade.append(criarCardPokemon(p, {
+    mostrarFavorito: true, favoritado: true, revelar: false, atraso: i * 0.05,
+    aoFavoritar: (pk) => {
+      alternarFavorito(sessao.usuarioId, pk.id);
+      grade.querySelector(`[data-id="${pk.id}"]`)?.classList.add("card-pokemon--saindo");
+      setTimeout(renderizar, 300);
+    },
+  })));
+
+
+  // espaços vazios no estilo do design ("?") enquanto há poucos favoritos
+  if (!filtrando) for (let i = lista.length; i < LIMITE_FAV; i++) {
+    const vazioCard = criarCardBloqueado({ mostrarFavorito: true });
+    vazioCard.classList.add("card-pokemon--vazio");
+    grade.append(vazioCard);
+  }
+
+
+  vazio.hidden = lista.length > 0;
+  limpar(vazio);
+  if (!lista.length) {
+    if (filtrando) vazio.append("Nenhum favorito combina com a busca ou os filtros.");
+    else vazio.append("Você ainda não favoritou nenhum Pokémon. ", h("a", { class: "link-destaque", href: "pokedex.html" }, "Explore a Pokédex"), " e toque no coração!");
+  }
+  atualizarBotao("#mais-fav", "fav", lista.length > LIMITE_FAV);
+}
+
+
+/* ---------- Seção: comparações ---------- */
+function miniLado(p) {
+  return h("div", { class: "cmp-card__lado" },
+    h("div", { class: "cmp-mini" }, p ? h("img", { src: p.imagem, alt: p.nome, loading: "lazy" }) : h("span", {}, "?")),
+    h("span", { class: "cmp-card__nome" }, p ? p.nome : "Nome do Pokémon"));
+}
+
+
+function cardComparacao(c, i) {
+  const a = estado.pokemons.get(c.a);
+  const b = estado.pokemons.get(c.b);
+  const card = h("article", { class: "cmp-card", style: `animation-delay:${i * 0.05}s` },
+    h("span", { class: "cmp-card__titulo", title: c.titulo }, c.titulo),
+    h("div", { class: "cmp-card__acoes" },
+      h("button", {
+        class: "btn-favorito", type: "button", "aria-pressed": String(c.favorita),
+        "aria-label": c.favorita ? "Remover dos favoritos" : "Favoritar comparação",
+        onClick: () => { alternarComparacaoFavorita(sessao.usuarioId, c.id); renderizar(); },
+      }, icone("coracao")),
+      h("button", {
+        class: "cmp-card__remover", type: "button", "aria-label": `Excluir comparação ${c.titulo}`,
+        onClick: () => {
+          if (!confirm(`Excluir a comparação "${c.titulo}"?`)) return;
+          removerComparacao(sessao.usuarioId, c.id);
+          card.classList.add("cmp-card--saindo");
+          setTimeout(renderizar, 300);
+        },
+      }, icone("lixeira"))),
+    h("a", { class: "cmp-card__link", href: `comparador.html?a=${c.a}&b=${c.b}`, "aria-label": `Abrir comparação ${c.titulo}` },
+      h("div", { class: "cmp-card__duelo" }, miniLado(a), h("span", { class: "cmp-card__vs" }, "vs"), miniLado(b))));
+  return card;
+}
+
+
+function renderizarComparacoes() {
+  const t = termo();
+  const todas = getComparacoes(sessao.usuarioId).filter((c) => {
+    const a = estado.pokemons.get(c.a), b = estado.pokemons.get(c.b);
+    return !t || c.titulo.toLowerCase().includes(t) || (a && combina(a, t)) || (b && combina(b, t));
+  });
+  const grupos = [
+    { chave: "cmpFav", grade: "#grade-cmp-fav", vazio: "#vazio-cmp-fav", botao: "#mais-cmp-fav", itens: todas.filter((c) => c.favorita),
+      msg: "Nenhuma comparação favorita. Toque no coração de uma comparação para ela aparecer aqui." },
+    { chave: "cmp", grade: "#grade-cmp", vazio: "#vazio-cmp", botao: "#mais-cmp", itens: todas.filter((c) => !c.favorita),
+      msg: null },
+  ];
+  for (const g of grupos) {
+    const grade = limpar($(g.grade));
+    const vazio = $(g.vazio);
+    const itens = estado.expandido[g.chave] ? g.itens : g.itens.slice(0, LIMITE_CMP);
+    itens.forEach((c, i) => grade.append(cardComparacao(c, i)));
+    vazio.hidden = g.itens.length > 0;
+    limpar(vazio);
+    if (!g.itens.length) {
+      if (t) vazio.append("Nenhuma comparação combina com a busca.");
+      else if (g.msg) vazio.append(g.msg);
+      else vazio.append("Você ainda não salvou comparações. ", h("a", { class: "link-destaque", href: "comparador.html" }, "Abra o Comparador"), " para criar a primeira!");
+    }
+    atualizarBotao(g.botao, g.chave, g.itens.length > LIMITE_CMP);
+  }
+}
+
+
+function atualizarBotao(seletor, chave, mostrar) {
+  const botao = $(seletor);
+  botao.hidden = !mostrar;
+  botao.textContent = estado.expandido[chave] ? "Mostrar Menos" : "Mostrar Mais";
+  botao.setAttribute("aria-expanded", String(estado.expandido[chave]));
+  botao.onclick = () => { estado.expandido[chave] = !estado.expandido[chave]; renderizar(); };
+}
+
+
+/* ---------- Render geral e barra ---------- */
+const ferramentas = [];
+
+
+function renderizar() {
+  renderizarFavoritos();
+  renderizarComparacoes();
+  const resumo = limpar($("#resumo"));
+  if (estado.tipo || estado.geracao || estado.ordem !== "numero-asc") {
+    resumo.append("Tipo, região e ordem valem para os Pokémon favoritos.",
+      h("button", { type: "button", onClick: () => { Object.assign(estado, { tipo: "", geracao: 0, ordem: "numero-asc" }); renderizar(); } }, "Limpar filtros"));
+  }
+  ferramentas.forEach((f) => f.marcar());
+}
+
+
+function montarBarra() {
+  $("#icone-lupa").replaceWith(icone("lupa"));
+  $("#form-busca").addEventListener("submit", (e) => e.preventDefault());
+  $("#busca").addEventListener("input", (e) => { estado.busca = e.target.value; renderizar(); });
+
+
+  const novas = [
+    criarFerramentaMenu({
+      icone: "filtro", rotulo: "Filtrar por tipo", titulo: "Tipo", padrao: "", aoMudar: renderizar,
+      opcoes: () => [{ valor: "", rotulo: "Todos os tipos" }, ...Object.keys(TIPOS_PT).map((t) => ({ valor: t, rotulo: TIPOS_PT[t], icone: criarTipo(t) }))],
+      atual: () => estado.tipo, aoEscolher: (v) => { estado.tipo = v; },
+    }),
+    criarFerramentaMenu({
+      icone: "globo", rotulo: "Filtrar por região", titulo: "Região", padrao: 0, aoMudar: renderizar,
+      opcoes: () => [{ valor: 0, rotulo: "Todas as regiões" }, ...Object.entries(GERACOES).map(([n, g]) => ({ valor: Number(n), rotulo: `${n}ª — ${g.regiao}` }))],
+      atual: () => estado.geracao, aoEscolher: (v) => { estado.geracao = v; },
+    }),
+    criarFerramentaMenu({
+      icone: "ordenar", rotulo: "Ordenar favoritos", titulo: "Ordenar por", padrao: "numero-asc", aoMudar: renderizar,
+      opcoes: () => Object.entries(ORDENS).map(([valor, o]) => ({ valor, rotulo: o.rotulo })),
+      atual: () => estado.ordem, aoEscolher: (v) => { estado.ordem = v; },
+    }),
+  ];
+  ferramentas.push(...novas);
+  $("#botoes").append(...novas.map((f) => f.el));
+}
+
+
+/* ---------- Início ---------- */
+if (sessao) {
+  montarBarra();
+  await carregarDados();
+  renderizar();
+}
 
