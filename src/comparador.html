@@ -1,195 +1,41 @@
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Comparador | Gugudex</title>
-
-    <link rel="stylesheet" href="comparador.css">
-
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-
-    <script src="comparador.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Comparador — GuguDex</title>
+  <meta name="description" content="Compare os atributos de batalha de dois Pokémon lado a lado.">
+  <link rel="icon" href="assets/img/logo-gengar.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/comparador.css">
 </head>
-
 <body>
-    <main class="pagina">
+  <header id="site-header"></header>
 
-        <header class="cabecalho">
-            <a class="logo" href="index.html">GUGUDEX</a>
 
-            <nav class="menu">
-                <a href="index.html">Início</a>
-                <a href="comparador.html" class="ativo">Comparador</a>
-                <a href="pokedex.html">Pokédex</a>
-                <a href="fanart.html">Fanart</a>
-                <a href="colecao.html">Minha coleção</a>
-            </nav>
+  <main>
+    <h1 class="sr-only">Comparador de Pokémon</h1>
 
-            <a href="#" class="perfil" aria-label="Minha conta">●</a>
-        </header>
 
-        <section class="comparador">
+    <section class="cmp-arena" aria-label="Escolha os Pokémon">
+      <div class="container">
+        <div class="cmp-lados" id="lados"></div>
+      </div>
+    </section>
 
-            <div class="aviso-favorito">
-                <span id="mensagemFavorito">DESEJA FAVORITAR ESTA COMPARAÇÃO?</span>
-                <button id="favoritarComparacao"
-                        class="coracao"
-                        type="button"
-                        aria-label="Favoritar comparação">♡</button>
-            </div>
 
-            <div class="pokemon-versus">
+    <section class="cmp-resultado" aria-labelledby="titulo-cmp">
+      <div class="container">
+        <h2 class="cmp-resultado__titulo" id="titulo-cmp">Comparação de Atributos de Batalha</h2>
+        <p class="cmp-resumo" id="resumo" role="status" aria-live="polite"></p>
+        <div class="cmp-paineis" id="paineis"></div>
+        <div class="cmp-acoes" id="acoes"></div>
+      </div>
+    </section>
+  </main>
 
-                <article class="pokemon-lado" id="lado1">
-                    <span class="numero" id="numero1">#0000</span>
 
-                    <img class="imagem-pokemon"
-                         id="imagem1"
-                         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png"
-                         alt="Pokémon 1">
-
-                    <label class="seletor">
-                        <span>⌄</span>
-                        <input id="pokemon1"
-                               list="listaPokemons"
-                               placeholder="Pokémon 1"
-                               autocomplete="off">
-                    </label>
-                </article>
-
-                <div class="versus">VS</div>
-
-                <article class="pokemon-lado" id="lado2">
-                    <span class="numero" id="numero2">#0000</span>
-
-                    <img class="imagem-pokemon"
-                         id="imagem2"
-                         src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/0.png"
-                         alt="Pokémon 2">
-
-                    <label class="seletor">
-                        <span>⌄</span>
-                        <input id="pokemon2"
-                               list="listaPokemons"
-                               placeholder="Pokémon 2"
-                               autocomplete="off">
-                    </label>
-                </article>
-
-            </div>
-
-            <datalist id="listaPokemons"></datalist>
-
-            <div class="acoes">
-                <button id="comparar" type="button">Comparar Pokémon</button>
-                <p id="status" role="status">Escolha dois Pokémon para começar.</p>
-            </div>
-
-            <section class="estatisticas">
-                <h2>ATRIBUTOS</h2>
-
-                <div class="atributo">
-                    <span class="nome-atributo">HP</span>
-                    <div class="barra"><div id="barra1-hp"></div></div>
-                    <span id="valor1-hp">—</span>
-                    <span id="valor2-hp">—</span>
-                    <div class="barra"><div id="barra2-hp"></div></div>
-                    <span class="nome-atributo">HP</span>
-                </div>
-
-                <div class="atributo">
-                    <span class="nome-atributo">ATK</span>
-                    <div class="barra"><div id="barra1-attack"></div></div>
-                    <span id="valor1-attack">—</span>
-                    <span id="valor2-attack">—</span>
-                    <div class="barra"><div id="barra2-attack"></div></div>
-                    <span class="nome-atributo">ATK</span>
-                </div>
-
-                <div class="atributo">
-                    <span class="nome-atributo">DEF</span>
-                    <div class="barra"><div id="barra1-defense"></div></div>
-                    <span id="valor1-defense">—</span>
-                    <span id="valor2-defense">—</span>
-                    <div class="barra"><div id="barra2-defense"></div></div>
-                    <span class="nome-atributo">DEF</span>
-                </div>
-
-                <div class="atributo">
-                    <span class="nome-atributo">SPA</span>
-                    <div class="barra"><div id="barra1-special-attack"></div></div>
-                    <span id="valor1-special-attack">—</span>
-                    <span id="valor2-special-attack">—</span>
-                    <div class="barra"><div id="barra2-special-attack"></div></div>
-                    <span class="nome-atributo">SPA</span>
-                </div>
-
-                <div class="atributo">
-                    <span class="nome-atributo">SPD</span>
-                    <div class="barra"><div id="barra1-special-defense"></div></div>
-                    <span id="valor1-special-defense">—</span>
-                    <span id="valor2-special-defense">—</span>
-                    <div class="barra"><div id="barra2-special-defense"></div></div>
-                    <span class="nome-atributo">SPD</span>
-                </div>
-
-                <div class="atributo">
-                    <span class="nome-atributo">SPE</span>
-                    <div class="barra"><div id="barra1-speed"></div></div>
-                    <span id="valor1-speed">—</span>
-                    <span id="valor2-speed">—</span>
-                    <div class="barra"><div id="barra2-speed"></div></div>
-                    <span class="nome-atributo">SPE</span>
-                </div>
-            </section>
-
-            <div class="tipos-comparacao">
-                <div>
-                    <strong>Tipos:</strong>
-                    <span id="tipos1">—</span>
-                </div>
-                <div>
-                    <strong>Tipos:</strong>
-                    <span id="tipos2">—</span>
-                </div>
-            </div>
-
-        </section>
-
-        <footer class="rodape">
-
-            <a href="index.html" class="logo-footer">GUGUDEX</a>
-
-            <div class="newsletter">
-                <h3>FIQUE POR DENTRO DAS NOVIDADES!</h3>
-                <p>Receba novidades e atualizações da Gugudex.</p>
-
-                <form id="formNewsletter">
-                    <input type="email"
-                           placeholder="Seu e-mail"
-                           aria-label="Seu e-mail"
-                           required>
-                    <button type="submit" aria-label="Inscrever-se">✉</button>
-                </form>
-                <small id="statusNewsletter" role="status"></small>
-            </div>
-
-            <div class="redes-sociais">
-                <a href="#" aria-label="Instagram">◎</a>
-                <a href="#" aria-label="Discord">♟</a>
-                <a href="#" aria-label="X">𝕏</a>
-            </div>
-
-            <div class="footer-final">
-                <span>© 2026 Gugudex</span>
-                <span>Todos os direitos reservados.</span>
-            </div>
-
-        </footer>
-    </main>
+  <footer id="site-footer"></footer>
+  <script type="module" src="js/pages/comparador.js"></script>
 </body>
 </html>
