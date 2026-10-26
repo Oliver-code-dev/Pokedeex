@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha coleção — GuguDex</title>
+  <link rel="icon" href="assets/img/logo-gengar.png">
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/pokedex.css">
+  <link rel="stylesheet" href="css/colecao.css">
+</head>
+<body>
+  <header id="site-header"></header>
+
+
+  <main class="container pokedex">
+    <h1 class="sr-only">Minha coleção</h1>
+
+
+    <div class="barra-ferramentas">
+      <form class="campo-busca" role="search" id="form-busca">
+        <label class="campo__caixa">
+          <span class="sr-only">Buscar Pokémon e comparações</span>
+          <svg id="icone-lupa" aria-hidden="true" viewBox="0 0 24 24"></svg>
+          <input type="search" id="busca" placeholder="Buscar pokémon e comparações" autocomplete="off">
+        </label>
+      </form>
+      <div class="ferramentas__botoes" id="botoes"></div>
+    </div>
+    <p class="pokedex__resumo" id="resumo" role="status" aria-live="polite"></p>
+
+
+    <section class="col-secao" aria-labelledby="t-fav">
+      <div class="col-cabecalho"><h2 class="col-titulo" id="t-fav">Meus favoritos</h2><button class="link-destaque col-alternar" id="mais-fav" type="button" hidden>Mostrar Mais</button></div>
+      <div class="grade-pokemon" id="grade-fav"></div>
+      <p class="estado-vazio" id="vazio-fav" hidden></p>
+    </section>
+
+
+    <section class="col-secao" aria-labelledby="t-cmp-fav">
+      <div class="col-cabecalho"><h2 class="col-titulo" id="t-cmp-fav">Minhas comparações favoritas</h2><button class="link-destaque col-alternar" id="mais-cmp-fav" type="button" hidden>Mostrar Mais</button></div>
+      <div class="grade-comparacoes" id="grade-cmp-fav"></div>
+      <p class="estado-vazio" id="vazio-cmp-fav" hidden></p>
+    </section>
+
+
+    <section class="col-secao" aria-labelledby="t-cmp">
+      <div class="col-cabecalho"><h2 class="col-titulo" id="t-cmp">Minhas comparações</h2><button class="link-destaque col-alternar" id="mais-cmp" type="button" hidden>Mostrar Mais</button></div>
+      <div class="grade-comparacoes" id="grade-cmp"></div>
+      <p class="estado-vazio" id="vazio-cmp" hidden></p>
+    </section>
+  </main>
+
+
+  <footer id="site-footer"></footer>
+  <script type="module" src="js/pages/colecao.js"></script>
+</body>
+</html>
