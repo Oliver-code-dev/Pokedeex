@@ -1,0 +1,462 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GuguDex | Charmander</title>
+</head>
+
+<body>
+
+
+
+    <header class="header">
+
+        <div class="logo">
+            <a href="#">GuguDex</a>
+        </div>
+
+        <nav class="navbar">
+            <ul class="nav-links">
+                <li><a href="#">Início</a></li>
+                <li><a href="#">Pokédex</a></li>
+                <li><a href="#">Comparador</a></li>
+                <li><a href="#">Minha coleção</a></li>
+                <li><a href="#">Sobre</a></li>
+            </ul>
+        </nav>
+
+        <div class="user-profile">
+            <a href="#" aria-label="Perfil do usuário">
+                <img src="assets/user-icon.png" alt="Perfil do usuário">
+            </a>
+        </div>
+
+    </header>
+
+
+     
+
+    <main>
+
+
+
+        <section class="pokemon-hero">
+
+            <div class="pokemon-background">
+                
+                <span class="japanese-name">nome en japones da API</span>
+            </div>
+
+            <div class="pokemon-identification">
+
+                <a href="#" class="back-button" aria-label="Voltar">
+                    <img src="assets/back-icon.png" alt="">
+                </a>
+
+                <div class="pokemon-title">
+                    <h1>#0004</h1>
+                    <h2>CHARMANDER</h2>
+                    <p class="pokemon-type">
+                        Tipo: <span>🔥 Fogo</span>
+                    </p>
+                </div>
+
+            </div>
+
+            <div class="pokemon-actions">
+
+                <button class="favorite-button" aria-label="Adicionar aos favoritos">
+                    
+                </button>
+
+                <img
+                    class="pokemon-image"
+                    src="assets/charmander.png"
+                    alt="Pokémon Charmander"
+                >
+
+            </div>
+
+        </section>
+
+
+        
+
+        <section class="pokemon-characteristics">
+
+            <div class="characteristic">
+                <img src="assets/weight-icon.png" alt="">
+                <span>8,5 kg</span>
+            </div>
+
+            <div class="characteristic">
+                <span class="height-icon">↕</span>
+                <span>0,6 m</span>
+            </div>
+
+            <div class="characteristic">
+                <span>1° Geração</span>
+            </div>
+
+        </section>
+
+
+   
+
+        <section class="pokemon-information">
+
+            <div class="pokemon-description">
+
+                <h2>Descrição</h2>
+
+                <p>
+                    O Charmander é um Pokémon da primeira geração da
+                    franquia Pokémon. Conhecido por sua aparência de
+                    pequeno lagarto alaranjado e pela chama na ponta
+                    da cauda, ele é um dos Pokémon iniciais mais
+                    famosos da região de Kanto.
+                </p>
+
+            </div>
+
+
+       
+
+            <div class="pokemon-moves">
+
+                <h3>Movimentos aprendidos:</h3>
+
+                <table class="moves-table">
+
+                    <thead>
+                        <tr>
+                            <th>Movimento</th>
+                            <th>Tipo</th>
+                            <th>PP</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        <tr>
+                            <td>
+                                <span class="move-icon"></span>
+                                Arranhão
+                            </td>
+                            <td>NORMAL</td>
+                            <td>35/35</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="move-icon"></span>
+                                Rosnar
+                            </td>
+                            <td>NORMAL</td>
+                            <td>40/40</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="move-icon"></span>
+                                Brasa
+                            </td>
+                            <td>FOGO</td>
+                            <td>25/25</td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <span class="move-icon"></span>
+                                Cortina de Fumaça
+                            </td>
+                            <td>NORMAL</td>
+                            <td>20/20</td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        
+
+        <section class="battle-attributes">
+
+            <h2>Atributos de Batalha</h2>
+
+            <div class="attributes-list">
+
+                <div class="attribute">
+                    <span class="attribute-name">HP</span>
+
+                    <div class="attribute-bar">
+                        <div class="attribute-progress hp"></div>
+                    </div>
+
+                    <span class="attribute-value">39</span>
+                </div>
+
+
+                <div class="attribute">
+                    <span class="attribute-name">ATAQUE</span>
+
+                    <div class="attribute-bar">
+                        <div class="attribute-progress attack"></div>
+                    </div>
+
+                    <span class="attribute-value">52</span>
+                </div>
+
+
+                <div class="attribute">
+                    <span class="attribute-name">DEFESA</span>
+
+                    <div class="attribute-bar">
+                        <div class="attribute-progress defense"></div>
+                    </div>
+
+                    <span class="attribute-value">43</span>
+                </div>
+
+
+                <div class="attribute">
+                    <span class="attribute-name">AT. ESP.</span>
+
+                    <div class="attribute-bar">
+                        <div class="attribute-progress special-attack"></div>
+                    </div>
+
+                    <span class="attribute-value">60</span>
+                </div>
+
+
+                <div class="attribute">
+                    <span class="attribute-name">DEF. ESP.</span>
+
+                    <div class="attribute-bar">
+                        <div class="attribute-progress special-defense"></div>
+                    </div>
+
+                    <span class="attribute-value">50</span>
+                </div>
+
+
+                <div class="attribute">
+                    <span class="attribute-name">VELOCIDADE</span>
+
+                    <div class="attribute-bar">
+                        <div class="attribute-progress speed"></div>
+                    </div>
+
+                    <span class="attribute-value">65</span>
+                </div>
+
+            </div>
+
+        </section>
+
+
+       
+
+        <section class="pokemon-evolutions">
+
+            <h2>Evoluções</h2>
+
+            <div class="evolution-carousel">
+
+                <!-- Pokémon inicial -->
+
+                <article class="evolution-card">
+
+                    <div class="evolution-card-info">
+                        <h3>#0004</h3>
+                        <h4>Charmander</h4>
+                    </div>
+
+                    <img
+                        src="assets/charmander.png"
+                        alt="Charmander"
+                        class="evolution-image"
+                    >
+
+                    <div class="evolution-types">
+                        <span class="type-fire">🔥</span>
+                    </div>
+
+                </article>
+
+
+                
+
+                <div class="evolution-transition">
+
+                    <span class="evolution-level">16</span>
+                    <span class="evolution-arrow">❯</span>
+
+                </div>
+
+
+                
+
+                <article class="evolution-card">
+
+                    <div class="evolution-card-info">
+                        <h3>#0005</h3>
+                        <h4>Charmeleon</h4>
+                    </div>
+
+                    <img
+                        src="assets/charmeleon.png"
+                        alt="Charmeleon"
+                        class="evolution-image"
+                    >
+
+                    <div class="evolution-types">
+                        <span class="type-fire">🔥</span>
+                    </div>
+
+                </article>
+
+
+          
+
+                <div class="evolution-transition">
+
+                    <span class="evolution-level">36</span>
+                    <span class="evolution-arrow">❯</span>
+
+                </div>
+
+
+                
+
+                <article class="evolution-card">
+
+                    <div class="evolution-card-info">
+                        <h3>#0006</h3>
+                        <h4>Charizard</h4>
+                    </div>
+
+                    <img
+                        src="assets/charizard.png"
+                        alt="Charizard"
+                        class="evolution-image"
+>
+
+                    <div class="evolution-types">
+                        <span class="type-fire">🔥</span>
+                        <span class="type-flying">🌪️</span>
+                    </div>
+
+                </article>
+
+            </div>
+
+
+           
+
+            <div class="carousel-controls">
+
+                <button class="carousel-prev" aria-label="Evolução anterior">
+                    ❮
+                </button>
+
+                <button class="carousel-next" aria-label="Próxima evolução">
+                    ❯
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    
+
+    <footer class="footer">
+
+        
+
+        <section class="newsletter">
+
+            <h2>FIQUE POR DENTRO DAS<br>NOVIDADES!</h2>
+
+            <p>
+                Receba as novidades, atualizações e conteúdos
+                exclusivos no seu e-mail.
+            </p>
+
+            <form class="newsletter-form">
+
+                <label for="email">Seu e-mail</label>
+
+                <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    placeholder="Seu e-mail"
+                    required
+                >
+
+                <button type="submit">
+                    Enviar
+                </button>
+
+            </form>
+
+        </section>
+
+
+       
+
+        <div class="footer-bottom">
+
+            <div class="footer-logo">
+                <a href="#">GuguDex</a>
+            </div>
+
+            <nav class="footer-navigation">
+
+                <ul>
+                    <li><a href="#">Termos de uso</a></li>
+                    <li><a href="#">Política de Privacidade</a></li>
+                    <li><a href="#">Contato</a></li>
+                </ul>
+
+            </nav>
+
+
+        
+
+            <div class="social-links">
+
+                <a href="#" aria-label="Instagram">
+                    <img src="assets/instagram.png" alt="Instagram">
+                </a>
+
+                <a href="#" aria-label="Discord">
+                    <img src="assets/discord.png" alt="Discord">
+                </a>
+
+                <a href="#" aria-label="X">
+                    <img src="assets/x.png" alt="X">
+                </a>
+
+            </div>
+
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
